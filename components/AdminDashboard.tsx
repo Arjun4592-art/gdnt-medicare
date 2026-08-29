@@ -171,8 +171,9 @@ export default function AdminDashboard() {
           <Image
             src='/logo.png'
             alt='GDNT'
-            width={28}
-            height={28}
+            width={776}
+            height={322}
+            quality={100}
             className='h-7 w-auto brightness-0 invert'
           />
           <span className='font-extrabold text-sm'>GDNT Admin</span>
@@ -226,8 +227,9 @@ export default function AdminDashboard() {
             <Image
               src='/logo.png'
               alt='GDNT'
-              width={34}
-              height={34}
+              width={776}
+              height={322}
+              quality={100}
               className='h-[34px] w-auto brightness-0 invert mb-2'
             />
             <span className='text-white font-extrabold text-sm'>

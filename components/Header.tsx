@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter, usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 const NAV = [
   { href: '/', label: 'Home' },
@@ -19,7 +20,13 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [query, setQuery] = useState('')
+  const [mounted, setMounted] = useState(false)
   const searchInputRef = useRef<HTMLInputElement>(null)
+
+  // Needed before using a portal, since document.body isn't available during SSR.
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   // Close the mobile menu / search whenever the route changes.
   useEffect(() => {
@@ -31,12 +38,17 @@ export default function Header() {
     if (searchOpen) searchInputRef.current?.focus()
   }, [searchOpen])
 
-  // Close search modal on Escape, and lock body scroll while it's open.
+  // Close search modal on Escape, and lock body scroll while search or the
+  // mobile menu is open (both float over the page now, so scrolling behind
+  // them would be confusing).
   useEffect(() => {
-    if (!searchOpen) return
+    if (!searchOpen && !menuOpen) return
 
     function onKeyDown(e: KeyboardEvent) {
-      if (e.key === 'Escape') setSearchOpen(false)
+      if (e.key === 'Escape') {
+        setSearchOpen(false)
+        setMenuOpen(false)
+      }
     }
 
     document.addEventListener('keydown', onKeyDown)
@@ -47,7 +59,7 @@ export default function Header() {
       document.removeEventListener('keydown', onKeyDown)
       document.body.style.overflow = prevOverflow
     }
-  }, [searchOpen])
+  }, [searchOpen, menuOpen])
 
   function submitSearch(e: React.FormEvent) {
     e.preventDefault()
@@ -65,18 +77,12 @@ export default function Header() {
           <Image
             src='/logo.png'
             alt='GDNT Medicare logo'
-            width={42}
-            height={42}
+            width={776}
+            height={322}
+            priority
+            quality={100}
             className='h-[42px] w-auto'
           />
-          <div className='leading-tight hidden md:block'>
-            <span className='block font-extrabold text-[17px] text-navy'>
-              GDNT Medicare
-            </span>
-            <span className='block text-[9px] tracking-wider uppercase text-forest font-bold'>
-              Pvt. Ltd.
-            </span>
-          </div>
         </Link>
 
         <nav className='hidden md:block'>
@@ -157,9 +163,22 @@ export default function Header() {
         </div>
       </div>
 
+      {mounted &&
+        menuOpen &&
+        createPortal(
+          <div
+            className='md:hidden fixed inset-0 top-20 z-90 bg-ink/30 animate-[fadeIn_.18s_ease-out]'
+            onClick={() => setMenuOpen(false)}
+            aria-hidden='true'
+          />,
+          document.body,
+        )}
+
       <div
-        className={`md:hidden grid overflow-hidden border-b border-line bg-white transition-[grid-template-rows,opacity] duration-300 ease-out ${
-          menuOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+        className={`md:hidden absolute left-0 right-0 top-full z-40 grid overflow-hidden border-b border-line bg-white shadow-[0_16px_40px_-12px_rgba(20,24,31,0.18)] transition-[grid-template-rows,opacity] duration-300 ease-out ${
+          menuOpen
+            ? 'grid-rows-[1fr] opacity-100'
+            : 'grid-rows-[0fr] opacity-0 pointer-events-none'
         }`}
       >
         <div className='min-h-0 overflow-hidden'>
@@ -196,67 +215,70 @@ export default function Header() {
         </div>
       </div>
 
-      {searchOpen && (
-        <div
-          className='fixed inset-0 z-200 flex items-start justify-center px-4 pt-24 sm:pt-32 bg-ink/50 backdrop-blur-sm animate-[fadeIn_.18s_ease-out]'
-          onClick={() => setSearchOpen(false)}
-        >
+      {mounted &&
+        searchOpen &&
+        createPortal(
           <div
-            role='dialog'
-            aria-modal='true'
-            aria-label='Search products'
-            onClick={(e) => e.stopPropagation()}
-            className='w-full max-w-xl bg-white rounded-2xl shadow-2xl border border-line p-2 animate-[slideDown_.2s_ease-out]'
+            className='fixed inset-0 z-200 flex items-start justify-center px-4 pt-24 sm:pt-32 bg-ink/60 backdrop-blur-sm animate-[fadeIn_.18s_ease-out]'
+            onClick={() => setSearchOpen(false)}
           >
-            <form onSubmit={submitSearch} className='flex items-center gap-2'>
-              <svg
-                width='18'
-                height='18'
-                viewBox='0 0 24 24'
-                fill='none'
-                className='ml-3 shrink-0'
-              >
-                <circle
-                  cx='11'
-                  cy='11'
-                  r='7'
-                  stroke='#5B6470'
-                  strokeWidth='1.8'
-                />
-                <path
-                  d='M21 21l-4.3-4.3'
-                  stroke='#5B6470'
-                  strokeWidth='1.8'
-                  strokeLinecap='round'
-                />
-              </svg>
-              <input
-                ref={searchInputRef}
-                type='search'
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder='Search products...'
-                className='flex-1 py-3.5 text-[15px] bg-transparent focus:outline-none'
-              />
-              <button
-                type='button'
-                aria-label='Close search'
-                onClick={() => setSearchOpen(false)}
-                className='mr-1 w-9 h-9 shrink-0 rounded-full bg-bg-soft flex items-center justify-center transition-colors hover:bg-forest-pale'
-              >
-                <svg width='14' height='14' viewBox='0 0 24 24' fill='none'>
+            <div
+              role='dialog'
+              aria-modal='true'
+              aria-label='Search products'
+              onClick={(e) => e.stopPropagation()}
+              className='w-full max-w-xl bg-white rounded-2xl shadow-2xl border border-line p-2 animate-[slideDown_.2s_ease-out]'
+            >
+              <form onSubmit={submitSearch} className='flex items-center gap-2'>
+                <svg
+                  width='18'
+                  height='18'
+                  viewBox='0 0 24 24'
+                  fill='none'
+                  className='ml-3 shrink-0'
+                >
+                  <circle
+                    cx='11'
+                    cy='11'
+                    r='7'
+                    stroke='#5B6470'
+                    strokeWidth='1.8'
+                  />
                   <path
-                    d='M6 6l12 12M18 6L6 18'
-                    stroke='#14181F'
+                    d='M21 21l-4.3-4.3'
+                    stroke='#5B6470'
                     strokeWidth='1.8'
                     strokeLinecap='round'
                   />
                 </svg>
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
+                <input
+                  ref={searchInputRef}
+                  type='search'
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder='Search products...'
+                  className='flex-1 py-3.5 text-[15px] bg-transparent focus:outline-none'
+                />
+                <button
+                  type='button'
+                  aria-label='Close search'
+                  onClick={() => setSearchOpen(false)}
+                  className='mr-1 w-9 h-9 shrink-0 rounded-full bg-bg-soft flex items-center justify-center transition-colors hover:bg-forest-pale'
+                >
+                  <svg width='14' height='14' viewBox='0 0 24 24' fill='none'>
+                    <path
+                      d='M6 6l12 12M18 6L6 18'
+                      stroke='#14181F'
+                      strokeWidth='1.8'
+                      strokeLinecap='round'
+                    />
+                  </svg>
+                </button>
+              </form>
+            </div>
+          </div>,
+          document.body,
+        )}
     </header>
   )
 }
