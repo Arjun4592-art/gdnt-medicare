@@ -17,6 +17,8 @@ create table if not exists products (
   pack_size text not null,         -- e.g. "10x10", "100ml"
   composition text not null,       -- salt/composition
   description text,
+  usage_dosage text,               -- shown in the "Usage & Dosage" product page tab
+  safety_info text,                -- shown in the "Safety Info" product page tab
   price numeric(10,2) not null,
   mrp numeric(10,2) not null,
   stock_quantity integer not null default 0,
@@ -46,6 +48,12 @@ create trigger products_updated_at
 -- If you already ran this schema before the `images` column existed,
 -- this adds it without touching your existing data (safe to re-run).
 alter table products add column if not exists images text[] default '{}';
+
+-- If you already ran this schema before the Usage & Dosage / Safety Info
+-- tabs existed, this adds those columns without touching existing data
+-- (safe to re-run).
+alter table products add column if not exists usage_dosage text;
+alter table products add column if not exists safety_info text;
 
 -- ============================================================
 -- ENQUIRIES TABLE (contact form + product enquiry submissions)
@@ -91,18 +99,6 @@ create policy "Admins can manage enquiries"
   using (auth.role() = 'authenticated')
   with check (auth.role() = 'authenticated');
 
--- ============================================================
--- No seed data — your products table starts empty.
--- Add real products via the Admin Dashboard (/admin) once you've
--- created your admin login (see SUPABASE_SETUP.md step 4).
--- ============================================================
-
--- ============================================================
--- STORAGE BUCKET for product images
--- 1. Go to Storage tab in Supabase Dashboard → Create bucket "product-images" → Public bucket: ON
--- 2. Then run the policies below so the admin dashboard can upload (and the
---    public site can view) product photos.
--- ============================================================
 insert into storage.buckets (id, name, public)
 values ('product-images', 'product-images', true)
 on conflict (id) do nothing;

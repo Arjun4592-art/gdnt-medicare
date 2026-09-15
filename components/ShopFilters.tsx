@@ -16,11 +16,20 @@ export default function ShopFilters({ products }: { products: Product[] }) {
   const [forms, setForms] = useState<string[]>([])
   const [sort, setSort] = useState('Featured')
   const [query, setQuery] = useState(initialQuery)
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
   // Keep the search box in sync if the ?q= param changes (e.g. header search again).
   useEffect(() => {
     setQuery(initialQuery)
   }, [initialQuery])
+
+  // Lock page scroll while the mobile filter drawer is open.
+  useEffect(() => {
+    document.body.style.overflow = mobileFiltersOpen ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [mobileFiltersOpen])
 
   function toggle(
     list: string[],
@@ -88,7 +97,20 @@ export default function ShopFilters({ products }: { products: Product[] }) {
 
   return (
     <div className='max-w-[1240px] mx-auto px-8 grid grid-cols-1 lg:grid-cols-[268px_1fr] gap-9 items-start'>
-      <aside className='bg-bg-soft border border-line rounded-2xl p-6 lg:sticky lg:top-24 w-full'>
+      {/* Backdrop for the mobile filter drawer */}
+      {mobileFiltersOpen && (
+        <div
+          onClick={() => setMobileFiltersOpen(false)}
+          className='fixed inset-0 bg-navy/50 backdrop-blur-[2px] z-40 lg:hidden'
+        />
+      )}
+
+      <aside
+        className={`bg-bg-soft border border-line p-6 w-[86%] max-w-[320px] overflow-y-auto
+          fixed inset-y-0 left-0 z-50 rounded-none transition-transform duration-300 ease-out
+          ${mobileFiltersOpen ? 'translate-x-0' : '-translate-x-full'}
+          lg:sticky lg:z-auto lg:w-full lg:max-w-none lg:rounded-2xl lg:top-24 lg:translate-x-0`}
+      >
         <div className='flex items-center justify-between mb-5 pb-5 border-b border-line'>
           <div className='flex items-center gap-2'>
             <svg width='16' height='16' viewBox='0 0 24 24' fill='none'>
@@ -101,19 +123,35 @@ export default function ShopFilters({ products }: { products: Product[] }) {
             </svg>
             <h4 className='text-[14px] font-extrabold text-navy'>Filters</h4>
           </div>
-          {anyFilterActive && (
+          <div className='flex items-center gap-3.5'>
+            {anyFilterActive && (
+              <button
+                onClick={() => {
+                  setCategories([])
+                  setAvailability([])
+                  setForms([])
+                  setQuery('')
+                }}
+                className='text-[11px] font-bold text-forest hover:underline'
+              >
+                Clear all
+              </button>
+            )}
             <button
-              onClick={() => {
-                setCategories([])
-                setAvailability([])
-                setForms([])
-                setQuery('')
-              }}
-              className='text-[11px] font-bold text-forest hover:underline'
+              onClick={() => setMobileFiltersOpen(false)}
+              aria-label='Close filters'
+              className='lg:hidden w-7 h-7 flex items-center justify-center rounded-full hover:bg-white text-muted hover:text-navy transition-colors -mr-1'
             >
-              Clear all
+              <svg width='14' height='14' viewBox='0 0 24 24' fill='none'>
+                <path
+                  d='M6 6l12 12M18 6L6 18'
+                  stroke='currentColor'
+                  strokeWidth='2.2'
+                  strokeLinecap='round'
+                />
+              </svg>
             </button>
-          )}
+          </div>
         </div>
 
         <div className='mb-5 pb-5 border-b border-line/70'>
@@ -239,11 +277,32 @@ export default function ShopFilters({ products }: { products: Product[] }) {
           </div>
         )}
 
-        <div className='flex justify-between items-center mb-6'>
-          <div className='text-[13.5px] text-muted'>
-            Showing{' '}
-            <span className='font-bold text-navy'>{filtered.length}</span>{' '}
-            {filtered.length === 1 ? 'product' : 'products'}
+        <div className='flex justify-between items-start gap-3 mb-6'>
+          <div className='flex flex-col items-start gap-2'>
+            <button
+              onClick={() => setMobileFiltersOpen(true)}
+              className='lg:hidden inline-flex items-center gap-2 border border-line rounded-lg px-3.5 py-2.5 text-[13px] font-bold text-navy bg-white hover:border-forest/40 transition-colors'
+            >
+              <svg width='14' height='14' viewBox='0 0 24 24' fill='none'>
+                <path
+                  d='M4 6h16M7 12h10M10 18h4'
+                  stroke='#0F6E4E'
+                  strokeWidth='2'
+                  strokeLinecap='round'
+                />
+              </svg>
+              Filters
+              {activeChips.length > 0 && (
+                <span className='inline-flex items-center justify-center min-w-[17px] h-[17px] px-1 rounded-full bg-forest text-white text-[10px] font-bold'>
+                  {activeChips.length}
+                </span>
+              )}
+            </button>
+            <div className='text-[13.5px] text-muted'>
+              Showing{' '}
+              <span className='font-bold text-navy'>{filtered.length}</span>{' '}
+              {filtered.length === 1 ? 'product' : 'products'}
+            </div>
           </div>
           <div className='relative'>
             <select

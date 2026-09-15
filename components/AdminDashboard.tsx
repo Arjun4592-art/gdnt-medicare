@@ -56,6 +56,8 @@ function fromDb(row: {
   reviews_count: number
   composition: string
   description: string | null
+  usage_dosage?: string | null
+  safety_info?: string | null
   image_url?: string | null
   images?: string[] | null
 }): Product {
@@ -73,6 +75,8 @@ function fromDb(row: {
     pack: row.pack_size,
     salt: row.composition,
     desc: row.description || '',
+    usageDosage: row.usage_dosage || '',
+    safetyInfo: row.safety_info || '',
     price: Number(row.price),
     mrp: Number(row.mrp),
     stock: row.stock_quantity <= row.reorder_level ? 'Low Stock' : 'In Stock',
