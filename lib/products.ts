@@ -18,6 +18,8 @@ export interface Product {
   tagColor: string
   icon: ProductIcon
   images: string[]
+  metaTitle?: string
+  metaDescription?: string
 }
 
 // Discount % off MRP, derived from price vs mrp (rounded down). Returns 0 if no real discount.

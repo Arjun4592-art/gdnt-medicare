@@ -6,25 +6,46 @@ import Reveal from '@/components/Reveal'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Shop All Products | GDNT Medicare Pvt. Ltd.',
+  title: 'Shop All Ethical Pharmaceutical Products',
   description:
-    "Browse GDNT Medicare's full catalog of pharmaceutical products across tablets, syrups, injectables, and wellness ranges.",
+    "Browse GDNT Medicare's full catalog of ethical pharmaceutical products across tablets, syrups, capsules, and ointments — supplied to doctors and medical stores across India.",
+  alternates: {
+    canonical: '/shop',
+  },
+  openGraph: {
+    title: 'Shop All Ethical Pharmaceutical Products | GDNT Medicare Pvt. Ltd.',
+    description:
+      "Browse GDNT Medicare's full catalog of ethical pharmaceutical products across tablets, syrups, capsules, and ointments.",
+    url: 'https://gdntmedicare.com/shop',
+    type: 'website',
+  },
 }
 
 export default async function ShopPage() {
   const products = await getProducts()
   return (
     <>
-      <div className='max-w-[1240px] mx-auto px-8 py-5 text-[13px] text-muted'>
+      <div className='max-w-[1240px] mx-auto px-5 sm:px-8 py-5 text-[13px] text-muted'>
         <Link href='/' className='hover:text-forest'>
           Home
         </Link>
         <span className='mx-1.5'>/</span>Shop
       </div>
 
+      <div className='max-w-[1240px] mx-auto px-5 sm:px-8'>
+        <h1 className='text-2xl md:text-[32px] font-extrabold text-navy leading-tight mb-1'>
+          Shop All Ethical Pharmaceutical Products
+        </h1>
+        <p className='text-[13px] text-muted mb-4 max-w-2xl'>
+          Browse GDNT Medicare&apos;s full catalog of ethical pharmaceutical
+          products — tablets, syrups, capsules, and ointments — supplied to
+          doctors and medical stores across India.
+        </p>
+      </div>
+
       <section className='pt-3 pb-24'>
         {products.length === 0 ? (
-          <div className='max-w-[1240px] mx-auto px-8'>
+          <div className='max-w-[1240px] mx-auto px-5 sm:px-8'>
             <div className='text-center py-16 text-muted text-sm bg-bg-soft rounded-2xl border border-line'>
               No products available yet. Check back soon, or if you&apos;re the
               admin,{' '}
@@ -42,7 +63,7 @@ export default async function ShopPage() {
       </section>
 
       <section className='pb-24'>
-        <div className='max-w-[1240px] mx-auto px-8'>
+        <div className='max-w-[1240px] mx-auto px-5 sm:px-8'>
           <Reveal>
             <div className='relative rounded-[28px] px-6 md:px-16 py-18 text-center text-white overflow-hidden bg-gradient-to-br from-forest via-forest to-forest-dark shadow-[0_50px_90px_-30px_rgba(11,79,56,0.5)]'>
               {/* dotted texture */}

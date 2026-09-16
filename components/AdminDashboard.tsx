@@ -25,21 +25,73 @@ type Panel =
   | 'enquiries'
   | 'analytics'
 
-const NAV: { id: Panel; label: string; d: string }[] = [
+const NAV: { id: Panel; label: string; icon: React.ReactNode }[] = [
   {
     id: 'overview',
     label: 'Overview',
-    d: 'M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z',
+    icon: (
+      <>
+        <rect x='3' y='3' width='7' height='7' rx='1.5' />
+        <rect x='14' y='3' width='7' height='7' rx='1.5' />
+        <rect x='3' y='14' width='7' height='7' rx='1.5' />
+        <rect x='14' y='14' width='7' height='7' rx='1.5' />
+      </>
+    ),
   },
-  { id: 'products', label: 'Products', d: 'M5 9.5h14v5H5z' },
+  {
+    id: 'products',
+    label: 'Products',
+    icon: (
+      <>
+        <path
+          d='M21 7.5v9L12 21l-9-4.5v-9L12 3l9 4.5z'
+          strokeLinejoin='round'
+        />
+        <path d='M3.3 7l8.7 4.5L20.7 7' strokeLinejoin='round' />
+        <path d='M12 21v-9.5' />
+      </>
+    ),
+  },
   {
     id: 'categories',
     label: 'Categories',
-    d: 'M4 6h7v7H4zM13 6h7v7h-7zM4 15h16v3H4z',
+    icon: (
+      <>
+        <path
+          d='M20.5 13.2l-7.3 7.3a1.5 1.5 0 01-2.1 0l-7.8-7.8a1.5 1.5 0 01-.4-1V4.5A1.5 1.5 0 014.3 3h7.2c.4 0 .8.2 1 .4l7.9 7.9a1.5 1.5 0 010 2.1z'
+          strokeLinejoin='round'
+        />
+        <circle cx='8.3' cy='7.8' r='1.5' fill='currentColor' stroke='none' />
+      </>
+    ),
   },
-  { id: 'inventory', label: 'Inventory', d: 'M3 7l9-4 9 4-9 4-9-4z' },
-  { id: 'enquiries', label: 'Enquiries', d: 'M4 4h16v12H8l-4 4V4z' },
-  { id: 'analytics', label: 'Analytics', d: 'M4 20V10M12 20V4M20 20v-7' },
+  {
+    id: 'inventory',
+    label: 'Inventory',
+    icon: (
+      <>
+        <rect x='3' y='4' width='18' height='4' rx='1' strokeLinejoin='round' />
+        <path d='M5 8v9a2 2 0 002 2h10a2 2 0 002-2V8' strokeLinejoin='round' />
+        <path d='M10 13h4' />
+      </>
+    ),
+  },
+  {
+    id: 'enquiries',
+    label: 'Enquiries',
+    icon: <path d='M4 4h16v12H8l-4 4V4z' strokeLinejoin='round' />,
+  },
+  {
+    id: 'analytics',
+    label: 'Analytics',
+    icon: (
+      <>
+        <path d='M4 20V10' />
+        <path d='M12 20V4' />
+        <path d='M20 20v-7' />
+      </>
+    ),
+  },
 ]
 
 function fromDb(row: {
@@ -60,6 +112,8 @@ function fromDb(row: {
   safety_info?: string | null
   image_url?: string | null
   images?: string[] | null
+  meta_title?: string | null
+  meta_description?: string | null
 }): Product {
   const iconMap: Record<string, Product['icon']> = {
     Tablets: 'tablet',
@@ -90,6 +144,8 @@ function fromDb(row: {
         : row.image_url
           ? [row.image_url]
           : [],
+    metaTitle: row.meta_title || '',
+    metaDescription: row.meta_description || '',
   }
 }
 
@@ -101,6 +157,11 @@ export default function AdminDashboard() {
   const [showProductForm, setShowProductForm] = useState(false)
   const [editingProduct, setEditingProduct] = useState<Product | null>(null)
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
+  const [stockModalId, setStockModalId] = useState<number | null>(null)
+  const [stockValue, setStockValue] = useState('')
+  const [stockSaving, setStockSaving] = useState(false)
+  const [deleteModalId, setDeleteModalId] = useState<number | null>(null)
+  const [deleting, setDeleting] = useState(false)
 
   const loadData = useCallback(async () => {
     try {
@@ -134,17 +195,38 @@ export default function AdminDashboard() {
     loadData()
   }, [loadData])
 
-  async function handleDeleteProduct(id: number) {
-    if (!confirm('Delete this product?')) return
-    await deleteProductAction(String(id))
-    loadData()
+  function handleDeleteProduct(id: number) {
+    setDeleteModalId(id)
   }
 
-  async function handleAdjustStock(id: number) {
-    const val = prompt('New stock quantity:')
-    if (val === null) return
-    await adjustStock(String(id), parseInt(val) || 0)
-    loadData()
+  async function confirmDeleteProduct() {
+    if (deleteModalId === null) return
+    setDeleting(true)
+    try {
+      await deleteProductAction(String(deleteModalId))
+      setDeleteModalId(null)
+      loadData()
+    } finally {
+      setDeleting(false)
+    }
+  }
+
+  function handleAdjustStock(id: number) {
+    setStockModalId(id)
+    setStockValue('')
+  }
+
+  async function confirmAdjustStock() {
+    if (stockModalId === null) return
+    setStockSaving(true)
+    try {
+      await adjustStock(String(stockModalId), parseInt(stockValue) || 0)
+      setStockModalId(null)
+      setStockValue('')
+      loadData()
+    } finally {
+      setStockSaving(false)
+    }
   }
 
   async function handleMarkResponded(id: number) {
@@ -222,7 +304,7 @@ export default function AdminDashboard() {
       />
 
       <aside
-        className={`w-[250px] bg-navy text-white p-5 flex flex-col shrink-0 fixed inset-y-0 left-0 z-50 h-screen overflow-y-auto transition-transform duration-300 ease-out md:sticky md:top-0 md:translate-x-0 ${
+        className={`w-[250px] bg-navy text-white p-5 flex flex-col fixed top-0 left-0 z-50 h-screen overflow-y-auto transition-transform duration-300 ease-out md:translate-x-0 ${
           mobileNavOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
@@ -271,12 +353,14 @@ export default function AdminDashboard() {
             }`}
           >
             <svg width='18' height='18' viewBox='0 0 24 24' fill='none'>
-              <path
-                d={item.d}
+              <g
                 stroke='#fff'
                 strokeWidth='1.6'
+                strokeLinecap='round'
                 strokeLinejoin='round'
-              />
+              >
+                {item.icon}
+              </g>
             </svg>
             {item.label}
           </button>
@@ -315,7 +399,7 @@ export default function AdminDashboard() {
         </div>
       </aside>
 
-      <main className='flex-1 p-6 pt-22 md:pt-10 md:p-10 overflow-x-auto'>
+      <main className='flex-1 p-6 pt-22 md:pt-10 md:p-10 md:ml-[250px] overflow-x-auto'>
         {connected === false && (
           <div className='mb-6 bg-[#FBEAE8] border border-[#C0392B]/30 text-[13px] text-[#C0392B] font-semibold px-4 py-3 rounded-lg'>
             Could not connect to Supabase. Check your{' '}
@@ -378,6 +462,122 @@ export default function AdminDashboard() {
           </>
         )}
       </main>
+
+      {stockModalId !== null && (
+        <Modal
+          title='Adjust stock'
+          onClose={() => (stockSaving ? null : setStockModalId(null))}
+        >
+          <form
+            onSubmit={(e) => {
+              e.preventDefault()
+              confirmAdjustStock()
+            }}
+          >
+            <label className='block text-[12.5px] font-bold text-navy mb-2'>
+              New stock quantity
+            </label>
+            <input
+              autoFocus
+              type='number'
+              min={0}
+              value={stockValue}
+              onChange={(e) => setStockValue(e.target.value)}
+              placeholder='e.g. 120'
+              className='w-full border border-line rounded-lg px-3.5 py-2.5 text-[13.5px] focus:outline-none focus:ring-2 focus:ring-forest/30 focus:border-forest'
+            />
+            <div className='flex justify-end gap-3 mt-6'>
+              <button
+                type='button'
+                onClick={() => setStockModalId(null)}
+                disabled={stockSaving}
+                className='px-4 py-2.5 rounded-lg text-[13px] font-bold text-muted hover:text-navy transition-colors disabled:opacity-50'
+              >
+                Cancel
+              </button>
+              <button
+                type='submit'
+                disabled={stockSaving || stockValue.trim() === ''}
+                className='bg-forest text-white px-5 py-2.5 rounded-lg text-[13px] font-bold transition-transform hover:-translate-y-0.5 disabled:opacity-50 disabled:hover:translate-y-0'
+              >
+                {stockSaving ? 'Saving…' : 'Save'}
+              </button>
+            </div>
+          </form>
+        </Modal>
+      )}
+
+      {deleteModalId !== null && (
+        <Modal
+          title='Delete product'
+          onClose={() => (deleting ? null : setDeleteModalId(null))}
+        >
+          <p className='text-[13.5px] text-muted'>
+            Are you sure you want to delete this product? This action can&apos;t
+            be undone.
+          </p>
+          <div className='flex justify-end gap-3 mt-6'>
+            <button
+              type='button'
+              onClick={() => setDeleteModalId(null)}
+              disabled={deleting}
+              className='px-4 py-2.5 rounded-lg text-[13px] font-bold text-muted hover:text-navy transition-colors disabled:opacity-50'
+            >
+              Cancel
+            </button>
+            <button
+              type='button'
+              onClick={confirmDeleteProduct}
+              disabled={deleting}
+              className='bg-[#C0392B] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold transition-transform hover:-translate-y-0.5 disabled:opacity-50 disabled:hover:translate-y-0'
+            >
+              {deleting ? 'Deleting…' : 'Delete'}
+            </button>
+          </div>
+        </Modal>
+      )}
+    </div>
+  )
+}
+
+function Modal({
+  title,
+  onClose,
+  children,
+}: {
+  title: string
+  onClose: () => void
+  children: React.ReactNode
+}) {
+  return (
+    <div
+      className='fixed inset-0 z-[100] flex items-center justify-center bg-navy/40 backdrop-blur-[2px] px-4'
+      onClick={onClose}
+    >
+      <div
+        className='bg-white rounded-2xl border border-line shadow-xl w-full max-w-[380px] p-6'
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className='flex items-center justify-between mb-4'>
+          <h3 className='text-[15px] font-extrabold text-navy'>{title}</h3>
+          <button
+            type='button'
+            onClick={onClose}
+            className='w-7 h-7 rounded-md flex items-center justify-center text-muted hover:bg-bg-soft hover:text-navy transition-colors'
+            aria-label='Close'
+          >
+            <svg width='14' height='14' viewBox='0 0 24 24' fill='none'>
+              <path
+                d='M18 6L6 18M6 6l12 12'
+                stroke='currentColor'
+                strokeWidth='2'
+                strokeLinecap='round'
+              />
+            </svg>
+          </button>
+        </div>
+        {children}
+      </div>
     </div>
   )
 }
@@ -543,9 +743,26 @@ function ProductsPanel({
   onEdit: (p: Product) => void
   onAdd: () => void
 }) {
+  const [query, setQuery] = useState('')
+  const [category, setCategory] = useState('All')
+  const [status, setStatus] = useState<'All' | 'In Stock' | 'Low Stock'>('All')
+
+  const categories = Array.from(new Set(products.map((p) => p.cat))).sort()
+
+  const filtered = products.filter((p) => {
+    const q = query.trim().toLowerCase()
+    const matchesQuery =
+      q === '' ||
+      p.name.toLowerCase().includes(q) ||
+      p.cat.toLowerCase().includes(q)
+    const matchesCategory = category === 'All' || p.cat === category
+    const matchesStatus = status === 'All' || p.stock === status
+    return matchesQuery && matchesCategory && matchesStatus
+  })
+
   return (
     <div>
-      <div className='flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8'>
+      <div className='flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6'>
         <div>
           <h1 className='text-2xl font-extrabold text-navy'>Products</h1>
           <p className='text-[13.5px] text-muted mt-1'>
@@ -559,6 +776,69 @@ function ProductsPanel({
           + Add New Product
         </button>
       </div>
+
+      {/* Search + filters */}
+      <div className='flex flex-col sm:flex-row sm:items-center gap-3 mb-5'>
+        <div className='relative flex-1 max-w-[320px]'>
+          <svg
+            width='15'
+            height='15'
+            viewBox='0 0 24 24'
+            fill='none'
+            className='absolute left-3.5 top-1/2 -translate-y-1/2 text-muted'
+          >
+            <circle
+              cx='11'
+              cy='11'
+              r='7'
+              stroke='currentColor'
+              strokeWidth='2'
+            />
+            <path
+              d='M21 21l-4.3-4.3'
+              stroke='currentColor'
+              strokeWidth='2'
+              strokeLinecap='round'
+            />
+          </svg>
+          <input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder='Search by product or category'
+            className='w-full border border-line rounded-lg pl-10 pr-3.5 py-2.5 text-[13px] bg-white focus:outline-none focus:ring-2 focus:ring-forest/30 focus:border-forest'
+          />
+        </div>
+
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className='border border-line rounded-lg px-3.5 py-2.5 text-[13px] font-semibold text-navy bg-white focus:outline-none focus:ring-2 focus:ring-forest/30 focus:border-forest w-fit'
+        >
+          <option value='All'>All categories</option>
+          {categories.map((c) => (
+            <option key={c} value={c}>
+              {c}
+            </option>
+          ))}
+        </select>
+
+        <div className='flex bg-bg-soft rounded-lg p-1 gap-1 w-fit'>
+          {(['All', 'In Stock', 'Low Stock'] as const).map((s) => (
+            <button
+              key={s}
+              onClick={() => setStatus(s)}
+              className={`px-3.5 py-2 rounded-md text-[12.5px] font-bold transition-colors whitespace-nowrap ${
+                status === s
+                  ? 'bg-white text-forest shadow-sm'
+                  : 'text-muted hover:text-navy'
+              }`}
+            >
+              {s}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <div className='bg-white border border-line rounded-2xl overflow-hidden overflow-x-auto'>
         <table className='w-full min-w-[780px]'>
           <thead>
@@ -583,114 +863,140 @@ function ProductsPanel({
             </tr>
           </thead>
           <tbody>
-            {products.map((p) => {
-              const discount = getDiscountPercent(p.price, p.mrp)
-              return (
-                <tr key={p.id} className='hover:bg-bg-soft transition-colors'>
-                  <td className='px-6 py-4 border-b border-line'>
-                    <div className='w-[38px] h-[38px] rounded-lg bg-bg-soft flex items-center justify-center overflow-hidden'>
-                      {p.images.length > 0 ? (
-                        <Image
-                          src={p.images[0]}
-                          alt={p.name}
-                          width={38}
-                          height={38}
-                          className='w-full h-full object-cover'
-                        />
-                      ) : (
-                        <ProductIcon icon={p.icon} className='w-full h-full' />
-                      )}
-                    </div>
-                  </td>
-                  <td className='px-6 py-4 border-b border-line'>
-                    <div className='font-bold text-[13.5px] text-navy'>
-                      {p.name}
-                    </div>
-                    <div className='text-[11.5px] text-muted'>{p.pack}</div>
-                  </td>
-                  <td className='px-6 py-4 text-[13.5px] border-b border-line'>
-                    {p.cat}
-                  </td>
-                  <td className='px-6 py-4 text-[13.5px] border-b border-line'>
-                    ₹{p.price}{' '}
-                    <span className='text-[11px] text-muted line-through'>
-                      ₹{p.mrp}
-                    </span>
-                  </td>
-                  <td className='px-6 py-4 border-b border-line'>
-                    {discount > 0 ? (
-                      <span className='text-[11px] font-bold px-2.5 py-1 rounded-full bg-[#FDF3E3] text-[#B07F2A]'>
-                        {discount}% off
+            {filtered.length === 0 ? (
+              <tr>
+                <td
+                  colSpan={8}
+                  className='px-6 py-10 text-center text-[13.5px] text-muted'
+                >
+                  No products match your filters.
+                </td>
+              </tr>
+            ) : (
+              filtered.map((p) => {
+                const discount = getDiscountPercent(p.price, p.mrp)
+                return (
+                  <tr key={p.id} className='hover:bg-bg-soft transition-colors'>
+                    <td className='px-6 py-4 border-b border-line'>
+                      <div className='w-[38px] h-[38px] rounded-lg bg-bg-soft flex items-center justify-center overflow-hidden'>
+                        {p.images.length > 0 ? (
+                          <Image
+                            src={p.images[0]}
+                            alt={p.name}
+                            width={38}
+                            height={38}
+                            className='w-full h-full object-cover'
+                          />
+                        ) : (
+                          <ProductIcon
+                            icon={p.icon}
+                            className='w-full h-full'
+                          />
+                        )}
+                      </div>
+                    </td>
+                    <td className='px-6 py-4 border-b border-line'>
+                      <div className='font-bold text-[13.5px] text-navy'>
+                        {p.name}
+                      </div>
+                      <div className='text-[11.5px] text-muted'>{p.pack}</div>
+                    </td>
+                    <td className='px-6 py-4 text-[13.5px] border-b border-line'>
+                      {p.cat}
+                    </td>
+                    <td className='px-6 py-4 text-[13.5px] border-b border-line'>
+                      ₹{p.price}{' '}
+                      <span className='text-[11px] text-muted line-through'>
+                        ₹{p.mrp}
                       </span>
-                    ) : (
-                      <span className='text-[11px] text-muted'>—</span>
-                    )}
-                  </td>
-                  <td className='px-6 py-4 text-[13.5px] border-b border-line'>
-                    {p.stock === 'In Stock' ? 'In stock' : 'Low'}
-                  </td>
-                  <td className='px-6 py-4 border-b border-line'>
-                    <span
-                      className='text-[11px] font-bold px-3 py-1 rounded-full'
-                      style={{
-                        color: p.stock === 'In Stock' ? '#0F6E4E' : '#C0392B',
-                        background:
-                          p.stock === 'In Stock' ? '#E7F5EE' : '#FBEAE8',
-                      }}
-                    >
-                      {p.stock}
-                    </span>
-                  </td>
-                  <td className='px-6 py-4 border-b border-line'>
-                    <div className='flex gap-2'>
-                      <button
-                        onClick={() => onEdit(p)}
-                        className='w-[30px] h-[30px] rounded-md bg-bg-soft flex items-center justify-center hover:bg-forest-pale transition-colors'
-                        title='Edit'
+                    </td>
+                    <td className='px-6 py-4 border-b border-line'>
+                      {discount > 0 ? (
+                        <span className='text-[11px] font-bold px-2.5 py-1 rounded-full bg-[#FDF3E3] text-[#B07F2A]'>
+                          {discount}% off
+                        </span>
+                      ) : (
+                        <span className='text-[11px] text-muted'>—</span>
+                      )}
+                    </td>
+                    <td className='px-6 py-4 text-[13.5px] border-b border-line'>
+                      {p.stock === 'In Stock' ? 'In stock' : 'Low'}
+                    </td>
+                    <td className='px-6 py-4 border-b border-line'>
+                      <span
+                        className='text-[11px] font-bold px-3 py-1 rounded-full'
+                        style={{
+                          color: p.stock === 'In Stock' ? '#0F6E4E' : '#C0392B',
+                          background:
+                            p.stock === 'In Stock' ? '#E7F5EE' : '#FBEAE8',
+                        }}
                       >
-                        <svg
-                          width='14'
-                          height='14'
-                          viewBox='0 0 24 24'
-                          fill='none'
+                        {p.stock}
+                      </span>
+                    </td>
+                    <td className='px-6 py-4 border-b border-line'>
+                      <div className='flex gap-2'>
+                        <button
+                          onClick={() => onEdit(p)}
+                          className='w-[30px] h-[30px] rounded-md bg-bg-soft flex items-center justify-center hover:bg-forest-pale transition-colors'
+                          title='Edit'
                         >
-                          <path
-                            d='M4 20h4l11-11-4-4L4 16v4z'
-                            stroke='#0F6E4E'
-                            strokeWidth='1.6'
-                            strokeLinejoin='round'
-                          />
-                        </svg>
-                      </button>
-                      <button
-                        onClick={() => onDelete(p.id)}
-                        className='w-[30px] h-[30px] rounded-md bg-bg-soft flex items-center justify-center hover:bg-forest-pale transition-colors'
-                        title='Delete'
-                      >
-                        <svg
-                          width='14'
-                          height='14'
-                          viewBox='0 0 24 24'
-                          fill='none'
+                          <svg
+                            width='14'
+                            height='14'
+                            viewBox='0 0 24 24'
+                            fill='none'
+                          >
+                            <path
+                              d='M4 20h4l11-11-4-4L4 16v4z'
+                              stroke='#0F6E4E'
+                              strokeWidth='1.6'
+                              strokeLinejoin='round'
+                            />
+                          </svg>
+                        </button>
+                        <button
+                          onClick={() => onDelete(p.id)}
+                          className='w-[30px] h-[30px] rounded-md bg-bg-soft flex items-center justify-center hover:bg-forest-pale transition-colors'
+                          title='Delete'
                         >
-                          <path
-                            d='M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13'
-                            stroke='#C0392B'
-                            strokeWidth='1.6'
-                            strokeLinejoin='round'
-                          />
-                        </svg>
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              )
-            })}
+                          <svg
+                            width='14'
+                            height='14'
+                            viewBox='0 0 24 24'
+                            fill='none'
+                          >
+                            <path
+                              d='M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13'
+                              stroke='#C0392B'
+                              strokeWidth='1.6'
+                              strokeLinejoin='round'
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                )
+              })
+            )}
           </tbody>
         </table>
       </div>
     </div>
   )
+}
+
+// Builds a clean, display-only SKU from a product id. Sanitized so that any
+// stray/non-alphanumeric characters in the underlying id (e.g. corrupted or
+// non-UUID values) never leak into the UI.
+function skuFor(id: number): string {
+  const clean = String(id)
+    .replace(/[^a-zA-Z0-9]/g, '')
+    .toUpperCase()
+    .padEnd(8, '0')
+    .slice(0, 8)
+  return `GDN-${clean}`
 }
 
 function InventoryPanel({
@@ -700,6 +1006,18 @@ function InventoryPanel({
   products: Product[]
   onAdjust: (id: number) => void
 }) {
+  const [query, setQuery] = useState('')
+  const [status, setStatus] = useState<'All' | 'In Stock' | 'Low Stock'>('All')
+
+  const filtered = products.filter((p) => {
+    const matchesStatus = status === 'All' || p.stock === status
+    const matchesQuery =
+      query.trim() === '' ||
+      p.name.toLowerCase().includes(query.trim().toLowerCase()) ||
+      skuFor(p.id).toLowerCase().includes(query.trim().toLowerCase())
+    return matchesStatus && matchesQuery
+  })
+
   return (
     <div>
       <div className='mb-8'>
@@ -708,6 +1026,55 @@ function InventoryPanel({
           Track and adjust stock quantities.
         </p>
       </div>
+
+      {/* Filter bar */}
+      <div className='flex flex-col sm:flex-row sm:items-center gap-3 mb-5'>
+        <div className='relative flex-1 max-w-[320px]'>
+          <svg
+            width='15'
+            height='15'
+            viewBox='0 0 24 24'
+            fill='none'
+            className='absolute left-3.5 top-1/2 -translate-y-1/2 text-muted'
+          >
+            <circle
+              cx='11'
+              cy='11'
+              r='7'
+              stroke='currentColor'
+              strokeWidth='2'
+            />
+            <path
+              d='M21 21l-4.3-4.3'
+              stroke='currentColor'
+              strokeWidth='2'
+              strokeLinecap='round'
+            />
+          </svg>
+          <input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder='Search by product or SKU'
+            className='w-full border border-line rounded-lg pl-10 pr-3.5 py-2.5 text-[13px] bg-white focus:outline-none focus:ring-2 focus:ring-forest/30 focus:border-forest'
+          />
+        </div>
+        <div className='flex bg-bg-soft rounded-lg p-1 gap-1 w-fit'>
+          {(['All', 'In Stock', 'Low Stock'] as const).map((s) => (
+            <button
+              key={s}
+              onClick={() => setStatus(s)}
+              className={`px-3.5 py-2 rounded-md text-[12.5px] font-bold transition-colors whitespace-nowrap ${
+                status === s
+                  ? 'bg-white text-forest shadow-sm'
+                  : 'text-muted hover:text-navy'
+              }`}
+            >
+              {s}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <div className='bg-white border border-line rounded-2xl overflow-hidden overflow-x-auto'>
         <table className='w-full min-w-[700px]'>
           <thead>
@@ -723,44 +1090,60 @@ function InventoryPanel({
             </tr>
           </thead>
           <tbody>
-            {products.map((p) => (
-              <tr key={p.id} className='hover:bg-bg-soft transition-colors'>
-                <td className='px-6 py-4 text-[13.5px] font-bold text-navy border-b border-line'>
-                  {p.name}
-                </td>
-                <td className='px-6 py-4 text-[13.5px] font-mono border-b border-line'>
-                  GDN-{String(p.id).slice(0, 8)}
-                </td>
-                <td className='px-6 py-4 border-b border-line'>
-                  <span
-                    className='text-[11px] font-bold px-3 py-1 rounded-full'
-                    style={{
-                      color: p.stock === 'In Stock' ? '#0F6E4E' : '#C0392B',
-                      background:
-                        p.stock === 'In Stock' ? '#E7F5EE' : '#FBEAE8',
-                    }}
-                  >
-                    {p.stock}
-                  </span>
-                </td>
-                <td className='px-6 py-4 border-b border-line'>
-                  <button
-                    onClick={() => onAdjust(p.id)}
-                    className='w-[30px] h-[30px] rounded-md bg-bg-soft flex items-center justify-center hover:bg-forest-pale transition-colors'
-                    title='Adjust'
-                  >
-                    <svg width='14' height='14' viewBox='0 0 24 24' fill='none'>
-                      <path
-                        d='M4 20h4l11-11-4-4L4 16v4z'
-                        stroke='#0F6E4E'
-                        strokeWidth='1.6'
-                        strokeLinejoin='round'
-                      />
-                    </svg>
-                  </button>
+            {filtered.length === 0 ? (
+              <tr>
+                <td
+                  colSpan={4}
+                  className='px-6 py-10 text-center text-[13.5px] text-muted'
+                >
+                  No products match your filters.
                 </td>
               </tr>
-            ))}
+            ) : (
+              filtered.map((p) => (
+                <tr key={p.id} className='hover:bg-bg-soft transition-colors'>
+                  <td className='px-6 py-4 text-[13.5px] font-bold text-navy border-b border-line'>
+                    {p.name}
+                  </td>
+                  <td className='px-6 py-4 text-[13.5px] font-mono border-b border-line'>
+                    {skuFor(p.id)}
+                  </td>
+                  <td className='px-6 py-4 border-b border-line'>
+                    <span
+                      className='text-[11px] font-bold px-3 py-1 rounded-full'
+                      style={{
+                        color: p.stock === 'In Stock' ? '#0F6E4E' : '#C0392B',
+                        background:
+                          p.stock === 'In Stock' ? '#E7F5EE' : '#FBEAE8',
+                      }}
+                    >
+                      {p.stock}
+                    </span>
+                  </td>
+                  <td className='px-6 py-4 border-b border-line'>
+                    <button
+                      onClick={() => onAdjust(p.id)}
+                      className='w-[30px] h-[30px] rounded-md bg-bg-soft flex items-center justify-center hover:bg-forest-pale transition-colors'
+                      title='Adjust'
+                    >
+                      <svg
+                        width='14'
+                        height='14'
+                        viewBox='0 0 24 24'
+                        fill='none'
+                      >
+                        <path
+                          d='M4 20h4l11-11-4-4L4 16v4z'
+                          stroke='#0F6E4E'
+                          strokeWidth='1.6'
+                          strokeLinejoin='round'
+                        />
+                      </svg>
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>

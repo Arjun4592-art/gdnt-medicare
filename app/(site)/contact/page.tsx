@@ -5,9 +5,19 @@ import { IconBadge } from '@/components/IconBadge'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Contact Us | GDNT Medicare Pvt. Ltd.',
+  title: 'Contact Us',
   description:
-    'Get in touch with GDNT Medicare Pvt. Ltd. via form, WhatsApp, phone, or email for product enquiries and trade pricing.',
+    'Get in touch with GDNT Medicare Pvt. Ltd., ethical pharmaceutical company in Meerut, Uttar Pradesh, via form, WhatsApp, phone, or email for product enquiries and trade pricing.',
+  alternates: {
+    canonical: '/contact',
+  },
+  openGraph: {
+    title: 'Contact GDNT Medicare Pvt. Ltd.',
+    description:
+      'Get in touch with our ethical pharmaceutical company in Meerut, Uttar Pradesh for product enquiries and trade pricing.',
+    url: 'https://gdntmedicare.com/contact',
+    type: 'website',
+  },
 }
 
 const METHODS = [
@@ -61,7 +71,7 @@ const METHODS = [
 export default function ContactPage() {
   return (
     <>
-      <div className='max-w-[1240px] mx-auto px-8 py-5 text-[13px] text-muted'>
+      <div className='max-w-[1240px] mx-auto px-5 sm:px-8 py-5 text-[13px] text-muted'>
         <Link href='/' className='hover:text-forest transition-colors'>
           Home
         </Link>
@@ -73,13 +83,13 @@ export default function ContactPage() {
         <div className='pointer-events-none absolute -top-20 -left-32 w-[420px] h-[420px] rounded-full bg-forest/[0.06] blur-[110px]' />
         <div className='pointer-events-none absolute top-40 right-0 w-[360px] h-[360px] rounded-full bg-gold/[0.08] blur-[100px]' />
 
-        <div className='relative max-w-[1240px] mx-auto px-8'>
+        <div className='relative max-w-[1240px] mx-auto px-5 sm:px-8'>
           <Reveal className='max-w-[620px] mx-auto mb-12 text-center'>
             <div className='inline-flex items-center gap-2 text-xs tracking-wide uppercase text-forest font-bold mb-4 justify-center bg-white/80 backdrop-blur border border-forest/15 px-3.5 py-1.5 rounded-full shadow-[0_6px_16px_-8px_rgba(15,110,78,0.25)] w-fit mx-auto'>
               <span className='w-1.5 h-1.5 rounded-full bg-gold animate-pulse' />{' '}
               Get in Touch
             </div>
-            <h2 className='text-3xl md:text-4xl font-extrabold text-navy leading-tight'>
+            <h1 className='text-3xl md:text-4xl font-extrabold text-navy leading-tight'>
               We&apos;d love to hear{' '}
               <span className='relative inline-block'>
                 <span className='relative z-10 bg-gradient-to-r from-forest via-emerald-600 to-forest bg-clip-text text-transparent'>
@@ -100,7 +110,7 @@ export default function ContactPage() {
                   />
                 </svg>
               </span>
-            </h2>
+            </h1>
             <p className='mt-3.5 text-muted text-[15px] leading-relaxed'>
               Reach us through whichever channel is easiest — form, WhatsApp,
               phone, or email.
@@ -156,7 +166,8 @@ export default function ContactPage() {
                       Office Address
                     </h5>
                     <p className='text-[13px] text-muted mt-0.5'>
-                      GDNT Medicare Pvt. Ltd., Industrial Area, New Delhi, India
+                      GDNT Medicare Pvt. Ltd., Poothkhas, Rohta Road, Meerut,
+                      Uttar Pradesh, 250502
                     </p>
                   </div>
                 </div>

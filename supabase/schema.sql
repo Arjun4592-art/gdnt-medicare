@@ -55,6 +55,12 @@ alter table products add column if not exists images text[] default '{}';
 alter table products add column if not exists usage_dosage text;
 alter table products add column if not exists safety_info text;
 
+-- SEO fields shown in the product form's "SEO" tab. Both are optional —
+-- when left blank, the product page falls back to an auto-generated
+-- title/description built from the product's name and composition.
+alter table products add column if not exists meta_title text;
+alter table products add column if not exists meta_description text;
+
 -- ============================================================
 -- ENQUIRIES TABLE (contact form + product enquiry submissions)
 -- ============================================================

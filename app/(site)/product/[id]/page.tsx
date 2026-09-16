@@ -17,9 +17,25 @@ export async function generateMetadata({
   const { id } = await params
   const product = await getProductByIdAsync(id)
   if (!product) return { title: 'Product Not Found' }
+  const title = product.metaTitle || product.name
+  const description =
+    product.metaDescription ||
+    `${product.salt} — ${product.desc}. Available in ${product.pack} packs from GDNT Medicare, an ethical pharmaceutical company.`
   return {
-    title: `${product.name} | GDNT Medicare Pvt. Ltd.`,
-    description: `${product.salt} — ${product.desc}. Available in ${product.pack} packs.`,
+    title,
+    description,
+    alternates: {
+      canonical: `/product/${id}`,
+    },
+    openGraph: {
+      title: `${title} | GDNT Medicare Pvt. Ltd.`,
+      description,
+      url: `https://gdntmedicare.com/product/${id}`,
+      type: 'website',
+      images: product.images?.[0]
+        ? [{ url: product.images[0], alt: product.name }]
+        : undefined,
+    },
   }
 }
 
@@ -90,8 +106,78 @@ export default async function ProductDetailPage({
     ['Storage', 'Store below 30°C, protect from light'],
   ]
 
+  const productJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    description: product.desc,
+    image: product.images,
+    sku: String(product.id),
+    category: product.cat,
+    brand: {
+      '@type': 'Brand',
+      name: 'GDNT Medicare Pvt. Ltd.',
+    },
+    offers: {
+      '@type': 'Offer',
+      url: `https://gdntmedicare.com/product/${id}`,
+      priceCurrency: 'INR',
+      price: product.price,
+      availability:
+        product.stock === 'In Stock'
+          ? 'https://schema.org/InStock'
+          : 'https://schema.org/LimitedAvailability',
+      seller: {
+        '@type': 'Organization',
+        name: 'GDNT Medicare Pvt. Ltd.',
+      },
+    },
+    ...(product.reviews > 0
+      ? {
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: product.rating,
+            reviewCount: product.reviews,
+          },
+        }
+      : {}),
+  }
+
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://gdntmedicare.com/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Shop',
+        item: 'https://gdntmedicare.com/shop',
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: product.name,
+        item: `https://gdntmedicare.com/product/${id}`,
+      },
+    ],
+  }
+
   return (
     <>
+      <script
+        type='application/ld+json'
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
+      <script
+        type='application/ld+json'
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <div className='max-w-[1240px] mx-auto px-5 sm:px-8 py-5 text-[13px] text-muted overflow-x-auto whitespace-nowrap'>
         <Link href='/' className='hover:text-forest'>
           Home

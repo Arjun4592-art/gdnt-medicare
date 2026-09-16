@@ -38,6 +38,7 @@ export default function ProductImage({
         src={src}
         alt={alt}
         fill
+        sizes='(max-width: 640px) 50vw, (max-width: 1280px) 33vw, 300px'
         className={`object-cover transition-all duration-500 group-hover:scale-[1.08] ${
           status === 'loading' ? 'opacity-0' : 'opacity-100'
         }`}

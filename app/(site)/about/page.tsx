@@ -4,9 +4,19 @@ import { IconBadge } from '@/components/IconBadge'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'About Us | GDNT Medicare Pvt. Ltd.',
+  title: 'About Us',
   description:
-    'Learn about GDNT Medicare Pvt. Ltd. — a GMP-certified pharmaceutical supplier trusted by doctors and medical stores.',
+    'Learn about GDNT Medicare Pvt. Ltd. — a GMP-certified ethical pharmaceutical company based in Meerut, Uttar Pradesh, trusted by doctors and medical stores.',
+  alternates: {
+    canonical: '/about',
+  },
+  openGraph: {
+    title: 'About GDNT Medicare Pvt. Ltd. | Ethical Pharmaceutical Company',
+    description:
+      'A GMP-certified ethical pharmaceutical company based in Meerut, Uttar Pradesh, trusted by doctors and medical stores.',
+    url: 'https://gdntmedicare.com/about',
+    type: 'website',
+  },
 }
 
 const VALUES = [
@@ -24,8 +34,8 @@ const VALUES = [
     ),
   },
   {
-    t: 'Compliance First',
-    d: 'Licensed operations meeting all pharmaceutical trade regulations.',
+    t: 'Ethical Practices',
+    d: 'An ethical pharmaceutical company — licensed operations meeting all trade regulations, with no consumer-facing promotion.',
     icon: (
       <>
         <path d='M7 3h7l4 4v14H7z' strokeLinejoin='round' />
@@ -67,7 +77,7 @@ const VALUES = [
 export default function AboutPage() {
   return (
     <>
-      <div className='max-w-[1240px] mx-auto px-8 py-5 text-[13px] text-muted'>
+      <div className='max-w-[1240px] mx-auto px-5 sm:px-8 py-5 text-[13px] text-muted'>
         <Link href='/' className='hover:text-forest transition-colors'>
           Home
         </Link>
@@ -84,7 +94,7 @@ export default function AboutPage() {
           <Reveal>
             <div className='inline-flex items-center gap-2 text-xs tracking-wide uppercase text-forest font-bold mb-5 bg-white/80 backdrop-blur border border-forest/15 px-3.5 py-1.5 rounded-full shadow-[0_6px_16px_-8px_rgba(15,110,78,0.25)] w-fit'>
               <span className='w-1.5 h-1.5 rounded-full bg-gold animate-pulse' />{' '}
-              Our Story
+              An Ethical Pharmaceutical Company
             </div>
             <h1 className='text-3xl md:text-[46px] font-extrabold text-navy leading-[1.1] tracking-tight'>
               Expert care for a{' '}
@@ -110,11 +120,13 @@ export default function AboutPage() {
               tomorrow
             </h1>
             <p className='mt-6 text-base text-muted leading-relaxed'>
-              GDNT Medicare Pvt. Ltd. was founded with one purpose — to make
-              genuine, quality-assured medicines easily accessible to the
-              doctors and medical stores who depend on them. We work directly
+              GDNT Medicare Pvt. Ltd. is an ethical pharmaceutical company
+              founded with one purpose — to make genuine, quality-assured
+              medicines easily accessible to the doctors and medical stores who
+              depend on them. As an ethical pharma company, we work directly
               with certified manufacturers and maintain strict quality checks at
-              every stage, from sourcing to dispatch.
+              every stage, from sourcing to dispatch — with no consumer
+              advertising, only trade through medical professionals.
             </p>
             <p className='mt-4 text-base text-muted leading-relaxed'>
               Today, we supply a growing catalog of formulations across cardiac,
@@ -285,7 +297,7 @@ export default function AboutPage() {
         </svg>
         <div className='pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[700px] h-[420px] rounded-full bg-forest/[0.06] blur-[100px]' />
 
-        <div className='relative max-w-[1240px] mx-auto px-8'>
+        <div className='relative max-w-[1240px] mx-auto px-5 sm:px-8'>
           <Reveal className='max-w-[620px] mx-auto mb-14 text-center'>
             <div className='inline-flex items-center gap-2 text-xs tracking-wide uppercase text-forest font-bold mb-4 justify-center bg-white/80 backdrop-blur border border-forest/15 px-3.5 py-1.5 rounded-full shadow-[0_6px_16px_-8px_rgba(15,110,78,0.25)]'>
               <span className='w-1.5 h-1.5 rounded-full bg-gold animate-pulse' />{' '}
@@ -343,7 +355,7 @@ export default function AboutPage() {
 
       {/* CTA */}
       <section className='py-24'>
-        <div className='max-w-[1240px] mx-auto px-8'>
+        <div className='max-w-[1240px] mx-auto px-5 sm:px-8'>
           <Reveal>
             <div className='relative rounded-[28px] px-6 md:px-16 py-18 text-center text-white overflow-hidden bg-gradient-to-br from-forest via-forest to-forest-dark shadow-[0_50px_90px_-30px_rgba(11,79,56,0.5)]'>
               <svg

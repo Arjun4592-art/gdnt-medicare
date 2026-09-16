@@ -48,6 +48,7 @@ export default function ProductGallery({
               alt={name}
               fill
               priority
+              sizes='(max-width: 1024px) 100vw, 620px'
               className={`object-contain p-6 sm:p-10 transition-opacity duration-500 ${
                 mainLoaded ? 'opacity-100' : 'opacity-0'
               }`}
@@ -82,6 +83,7 @@ export default function ProductGallery({
                 src={src}
                 alt={`${name} thumbnail`}
                 fill
+                sizes='72px'
                 className='object-cover'
                 onError={() => markFailed(i)}
               />

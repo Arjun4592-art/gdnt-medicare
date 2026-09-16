@@ -36,6 +36,8 @@ function mapDbProduct(row: DbProduct): Product {
         : row.image_url
           ? [row.image_url]
           : [],
+    metaTitle: row.meta_title || '',
+    metaDescription: row.meta_description || '',
   }
 }
 

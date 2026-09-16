@@ -8,6 +8,8 @@ export interface DbProduct {
   description: string | null
   usage_dosage: string | null
   safety_info: string | null
+  meta_title: string | null
+  meta_description: string | null
   price: number
   mrp: number
   stock_quantity: number

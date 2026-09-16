@@ -3,6 +3,13 @@ import { getProducts } from '@/lib/data'
 import ProductCard from '@/components/ProductCard'
 import Reveal from '@/components/Reveal'
 import { IconBadge } from '@/components/IconBadge'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: '/',
+  },
+}
 
 const CATEGORY_TILES = [
   {
@@ -272,12 +279,16 @@ export default async function Home() {
             <Reveal>
               <div className='inline-flex items-center gap-2 text-xs tracking-wide uppercase text-forest font-bold mb-5 bg-white/80 backdrop-blur border border-forest/15 px-3.5 py-1.5 rounded-full shadow-[0_6px_16px_-8px_rgba(15,110,78,0.35)]'>
                 <span className='w-1.5 h-1.5 rounded-full bg-gold animate-pulse' />
-                Healthier Today, Brighter Tomorrow
+                An Ethical Pharmaceutical Company
               </div>
             </Reveal>
             <Reveal delay={80}>
               <h1 className='text-[38px] md:text-[60px] font-extrabold leading-[1.08] text-navy tracking-tight'>
                 Your Trusted <br />
+                <span className='relative z-10 bg-gradient-to-r from-forest via-forest to-emerald-600 bg-clip-text text-transparent'>
+                  Ethical
+                </span>{' '}
+                <br />
                 <span className='relative inline-block'>
                   <span className='relative z-10 bg-gradient-to-r from-forest via-forest to-emerald-600 bg-clip-text text-transparent'>
                     Pharmaceutical
@@ -302,9 +313,10 @@ export default async function Home() {
             </Reveal>
             <Reveal delay={160}>
               <p className='mt-6 text-base text-muted leading-relaxed max-w-[460px]'>
-                Quality medicines, genuine products. GDNT Medicare supplies
-                doctors and medical stores with GMP-certified formulations —
-                enquire directly, no middlemen.
+                Quality medicines, genuine products. As an ethical
+                pharmaceutical company, GDNT Medicare supplies doctors and
+                medical stores with GMP-certified formulations — enquire
+                directly, no middlemen.
               </p>
             </Reveal>
             <Reveal delay={240}>
@@ -490,7 +502,7 @@ export default async function Home() {
 
       {/* CATEGORIES */}
       <section className='py-24'>
-        <div className='max-w-[1240px] mx-auto px-8'>
+        <div className='max-w-[1240px] mx-auto px-5 sm:px-8'>
           <Reveal className='max-w-[620px] mx-auto mb-14 text-center'>
             <div className='inline-flex items-center gap-2 text-xs tracking-wide uppercase text-forest font-bold mb-4'>
               <span className='w-1.5 h-1.5 rounded-full bg-gold' /> Shop by
@@ -598,7 +610,7 @@ export default async function Home() {
         <div className='pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[700px] h-[420px] rounded-full bg-forest/[0.06] blur-[100px]' />
         <div className='pointer-events-none absolute bottom-0 -right-24 w-[380px] h-[380px] rounded-full bg-gold/[0.08] blur-[90px]' />
 
-        <div className='relative max-w-[1240px] mx-auto px-8'>
+        <div className='relative max-w-[1240px] mx-auto px-5 sm:px-8'>
           <Reveal className='max-w-[620px] mx-auto mb-14 text-center'>
             <div className='inline-flex items-center gap-2 text-xs tracking-wide uppercase text-forest font-bold mb-4 bg-white/80 backdrop-blur border border-forest/15 px-3.5 py-1.5 rounded-full shadow-[0_6px_16px_-8px_rgba(15,110,78,0.25)]'>
               <span className='w-1.5 h-1.5 rounded-full bg-gold animate-pulse' />{' '}
@@ -696,7 +708,7 @@ export default async function Home() {
           <rect width='100%' height='100%' fill='url(#why-us-dots)' />
         </svg>
 
-        <div className='relative max-w-[1240px] mx-auto px-8'>
+        <div className='relative max-w-[1240px] mx-auto px-5 sm:px-8'>
           <Reveal className='max-w-[620px] mx-auto mb-16 text-center'>
             <div className='inline-flex items-center gap-2 text-xs tracking-wide uppercase text-gold font-bold mb-4 justify-center bg-white/5 border border-white/10 px-3.5 py-1.5 rounded-full backdrop-blur'>
               <span className='w-1.5 h-1.5 rounded-full bg-gold animate-pulse' />{' '}
@@ -754,7 +766,7 @@ export default async function Home() {
 
       {/* CTA */}
       <section className='py-24'>
-        <div className='max-w-[1240px] mx-auto px-8'>
+        <div className='max-w-[1240px] mx-auto px-5 sm:px-8'>
           <Reveal>
             <div className='relative rounded-[28px] px-6 md:px-16 py-18 text-center text-white overflow-hidden bg-gradient-to-br from-forest via-forest to-forest-dark shadow-[0_50px_90px_-30px_rgba(11,79,56,0.5)]'>
               {/* dotted texture */}
