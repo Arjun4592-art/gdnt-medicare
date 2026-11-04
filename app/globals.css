@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap');
 @import 'tailwindcss';
 
 :root {
@@ -9,9 +8,9 @@
   --gold: #c79a48;
   --ink: #14181f;
   --muted: #5b6470;
-  --line: #e7e9ec;
+  --line: #e2e5e9;
   --bg: #ffffff;
-  --bg-soft: #f7f8f6;
+  --bg-soft: #f5f7f6;
 }
 
 @theme inline {
@@ -24,8 +23,10 @@
   --color-muted: var(--muted);
   --color-line: var(--line);
   --color-bg-soft: var(--bg-soft);
-  --font-sans: 'Manrope', sans-serif;
-  --font-mono: 'IBM Plex Mono', monospace;
+  --font-sans:
+    var(--font-public-sans), system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-serif: var(--font-source-serif), Georgia, 'Times New Roman', serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
 }
 
 html {
@@ -39,8 +40,17 @@ body {
 body {
   background: var(--bg);
   color: var(--ink);
-  font-family: 'Manrope', sans-serif;
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+}
+
+/* On the public site, headings use the serif; body copy and UI stay sans.
+   (Scoped to .site so the admin area keeps its plain sans look.) */
+.site h1,
+.site h2,
+.font-serif {
+  font-family: var(--font-serif);
+  letter-spacing: -0.01em;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -56,31 +66,7 @@ button:focus-visible {
   outline-offset: 3px;
 }
 
-.reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition:
-    opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
-    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
-}
-.reveal.in {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-@keyframes floatY {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-.animate-float {
-  animation: floatY 5s ease-in-out infinite;
-}
-
+/* Kept for the header menu / search animations and the admin area */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -97,5 +83,134 @@ button:focus-visible {
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+}
+
+/* ================= Animations ================= */
+
+/* Scroll reveal (used through the <Reveal> component) */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+  will-change: opacity, transform;
+}
+.reveal[data-v='fade'] {
+  transform: none;
+}
+.reveal[data-v='left'] {
+  transform: translateX(-36px);
+}
+.reveal[data-v='right'] {
+  transform: translateX(36px);
+}
+.reveal[data-v='scale'] {
+  transform: scale(0.95);
+}
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Section label rule that draws itself when its section appears */
+.reveal .rule-grow {
+  display: inline-block;
+  width: 0;
+  transition: width 0.9s 0.25s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.reveal.in .rule-grow {
+  width: 28px;
+}
+
+/* Entrance on page load (hero, page headers) */
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-rise {
+  opacity: 0;
+  animation: riseIn 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-zoom {
+  opacity: 0;
+  animation: zoomIn 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+
+/* Soft fade between pages (app/(site)/template.tsx) and when tabs change */
+@keyframes pageIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.animate-page {
+  animation: pageIn 0.45s ease both;
+}
+
+/* Buttons and CTA links press down slightly when clicked */
+.site a[class*='rounded-md'],
+.site button[class*='rounded-md'] {
+  transition-property:
+    color, background-color, border-color, transform, box-shadow;
+  transition-duration: 0.2s;
+}
+.site a[class*='rounded-md']:active,
+.site button[class*='rounded-md']:active {
+  transform: scale(0.97);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .animate-rise,
+  .animate-zoom {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+  .reveal .rule-grow {
+    width: 28px;
+    transition: none;
+  }
+}
+
+/* Scrolling notice in the header top bar */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.animate-marquee {
+  animation: marquee 28s linear infinite;
+}
+.marquee:hover .animate-marquee {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none !important;
   }
 }

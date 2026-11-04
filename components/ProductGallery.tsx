@@ -36,7 +36,7 @@ export default function ProductGallery({
 
   return (
     <div>
-      <div className='relative h-[280px] sm:h-[380px] lg:h-[440px] rounded-2xl bg-gradient-to-br from-bg-soft to-white mb-3.5 overflow-hidden ring-1 ring-line/70 flex items-center justify-center'>
+      <div className='relative h-[280px] sm:h-[380px] lg:h-[440px] rounded-md bg-white mb-3 overflow-hidden border border-line flex items-center justify-center'>
         {current ? (
           <>
             {!mainLoaded && (
@@ -73,7 +73,7 @@ export default function ProductGallery({
                 setActive(i)
                 setMainLoaded(false)
               }}
-              className={`relative w-[64px] h-[64px] sm:w-[72px] sm:h-[72px] shrink-0 rounded-xl bg-bg-soft border-2 overflow-hidden cursor-pointer transition-colors ${
+              className={`relative w-[64px] h-[64px] sm:w-[72px] sm:h-[72px] shrink-0 rounded bg-bg-soft border-2 overflow-hidden cursor-pointer transition-colors ${
                 current?.i === i
                   ? 'border-forest'
                   : 'border-transparent hover:border-forest/50'
@@ -95,7 +95,7 @@ export default function ProductGallery({
           {[0, 1, 2].map((i) => (
             <div
               key={i}
-              className={`w-[64px] h-[64px] sm:w-[72px] sm:h-[72px] rounded-xl bg-bg-soft border-2 flex items-center justify-center ${
+              className={`w-[64px] h-[64px] sm:w-[72px] sm:h-[72px] rounded bg-bg-soft border-2 flex items-center justify-center ${
                 i === 0 ? 'border-forest' : 'border-transparent'
               }`}
             >

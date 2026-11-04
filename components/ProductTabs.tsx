@@ -29,7 +29,7 @@ export default function ProductTabs({ product }: { product: Product }) {
           <button
             key={tab}
             onClick={() => setActive(tab)}
-            className={`pb-3.5 text-[13px] sm:text-sm font-bold relative transition-colors shrink-0 ${
+            className={`pb-3.5 text-[14px] font-bold relative transition-colors shrink-0 ${
               active === tab ? 'text-forest' : 'text-muted hover:text-navy'
             }`}
           >
@@ -40,7 +40,10 @@ export default function ProductTabs({ product }: { product: Product }) {
           </button>
         ))}
       </div>
-      <div className='py-6 sm:py-8 text-[14px] sm:text-[14.5px] leading-relaxed text-muted max-w-[700px] whitespace-pre-line'>
+      <div
+        key={active}
+        className='animate-page py-6 sm:py-8 text-[14px] sm:text-[14.5px] leading-relaxed text-muted max-w-[700px] whitespace-pre-line'
+      >
         {content[active]}
       </div>
     </div>

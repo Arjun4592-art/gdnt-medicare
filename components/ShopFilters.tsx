@@ -96,7 +96,7 @@ export default function ShopFilters({ products }: { products: Product[] }) {
   ]
 
   return (
-    <div className='max-w-[1240px] mx-auto px-8 grid grid-cols-1 lg:grid-cols-[268px_1fr] gap-9 items-start'>
+    <div className='max-w-[1240px] mx-auto px-5 sm:px-8 grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-8 items-start'>
       {/* Backdrop for the mobile filter drawer */}
       {mobileFiltersOpen && (
         <div
@@ -106,10 +106,10 @@ export default function ShopFilters({ products }: { products: Product[] }) {
       )}
 
       <aside
-        className={`bg-bg-soft border border-line p-6 w-[86%] max-w-[320px] overflow-y-auto
+        className={`bg-white border border-line p-6 w-[86%] max-w-[320px] overflow-y-auto
           fixed inset-y-0 left-0 z-50 rounded-none transition-transform duration-300 ease-out
           ${mobileFiltersOpen ? 'translate-x-0' : '-translate-x-full'}
-          lg:sticky lg:z-auto lg:w-full lg:max-w-none lg:rounded-2xl lg:top-24 lg:translate-x-0`}
+          lg:sticky lg:z-auto lg:w-full lg:max-w-none lg:rounded-md lg:top-24 lg:translate-x-0`}
       >
         <div className='flex items-center justify-between mb-5 pb-5 border-b border-line'>
           <div className='flex items-center gap-2'>
@@ -121,7 +121,7 @@ export default function ShopFilters({ products }: { products: Product[] }) {
                 strokeLinecap='round'
               />
             </svg>
-            <h4 className='text-[14px] font-extrabold text-navy'>Filters</h4>
+            <h4 className='text-[15px] font-bold text-navy'>Filters</h4>
           </div>
           <div className='flex items-center gap-3.5'>
             {anyFilterActive && (
@@ -155,10 +155,10 @@ export default function ShopFilters({ products }: { products: Product[] }) {
         </div>
 
         <div className='mb-5 pb-5 border-b border-line/70'>
-          <h5 className='text-[11px] font-extrabold text-muted uppercase tracking-wide mb-3'>
+          <h5 className='text-[12px] font-bold text-navy uppercase tracking-[0.08em] mb-3'>
             Category
           </h5>
-          <label className='flex items-center gap-2.5 text-[13.5px] text-muted px-2 py-2 rounded-lg cursor-pointer hover:bg-white hover:text-navy transition-colors'>
+          <label className='flex items-center gap-2.5 text-[13.5px] text-muted px-2 py-2 rounded cursor-pointer hover:bg-bg-soft hover:text-navy transition-colors'>
             <input
               type='checkbox'
               checked={categories.length === 0}
@@ -170,7 +170,7 @@ export default function ShopFilters({ products }: { products: Product[] }) {
           {activeCategories.map((c) => (
             <label
               key={c}
-              className='flex items-center gap-2.5 text-[13.5px] text-muted px-2 py-2 rounded-lg cursor-pointer hover:bg-white hover:text-navy transition-colors'
+              className='flex items-center gap-2.5 text-[13.5px] text-muted px-2 py-2 rounded cursor-pointer hover:bg-bg-soft hover:text-navy transition-colors'
             >
               <input
                 type='checkbox'
@@ -184,13 +184,13 @@ export default function ShopFilters({ products }: { products: Product[] }) {
         </div>
 
         <div className='mb-5 pb-5 border-b border-line/70'>
-          <h5 className='text-[11px] font-extrabold text-muted uppercase tracking-wide mb-3'>
+          <h5 className='text-[12px] font-bold text-navy uppercase tracking-[0.08em] mb-3'>
             Availability
           </h5>
           {['In Stock', 'Low Stock'].map((a) => (
             <label
               key={a}
-              className='flex items-center gap-2.5 text-[13.5px] text-muted px-2 py-2 rounded-lg cursor-pointer hover:bg-white hover:text-navy transition-colors'
+              className='flex items-center gap-2.5 text-[13.5px] text-muted px-2 py-2 rounded cursor-pointer hover:bg-bg-soft hover:text-navy transition-colors'
             >
               <input
                 type='checkbox'
@@ -200,7 +200,7 @@ export default function ShopFilters({ products }: { products: Product[] }) {
               />
               <span
                 className={`w-1.5 h-1.5 rounded-full shrink-0 ${
-                  a === 'In Stock' ? 'bg-forest' : 'bg-gold'
+                  a === 'In Stock' ? 'bg-forest' : 'bg-[#c79a48]'
                 }`}
               />
               {a}
@@ -209,13 +209,13 @@ export default function ShopFilters({ products }: { products: Product[] }) {
         </div>
 
         <div>
-          <h5 className='text-[11px] font-extrabold text-muted uppercase tracking-wide mb-3'>
+          <h5 className='text-[12px] font-bold text-navy uppercase tracking-[0.08em] mb-3'>
             Form
           </h5>
           {FORMS.map((f) => (
             <label
               key={f}
-              className='flex items-center gap-2.5 text-[13.5px] text-muted px-2 py-2 rounded-lg cursor-pointer hover:bg-white hover:text-navy transition-colors'
+              className='flex items-center gap-2.5 text-[13.5px] text-muted px-2 py-2 rounded cursor-pointer hover:bg-bg-soft hover:text-navy transition-colors'
             >
               <input
                 type='checkbox'
@@ -251,7 +251,7 @@ export default function ShopFilters({ products }: { products: Product[] }) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder='Search products by name, category, or salt...'
-            className='w-full border border-line rounded-xl pl-11 pr-3.5 py-3 text-[13.5px] bg-white shadow-[0_1px_2px_rgba(20,24,31,0.04)] focus:outline-none focus:ring-2 focus:ring-forest/30 focus:border-forest/40 transition-shadow'
+            className='w-full border border-[#cfd4da] rounded-md pl-11 pr-3.5 py-3 text-[14px] bg-white focus:outline-none focus:ring-2 focus:ring-forest/20 focus:border-forest'
           />
         </div>
 
@@ -261,7 +261,7 @@ export default function ShopFilters({ products }: { products: Product[] }) {
               <button
                 key={`${chip.label}-${i}`}
                 onClick={chip.onRemove}
-                className='inline-flex items-center gap-1.5 bg-forest-pale text-forest text-[12px] font-bold pl-3 pr-2 py-1.5 rounded-full hover:bg-forest hover:text-white transition-colors'
+                className='inline-flex items-center gap-1.5 bg-forest-pale text-forest text-[12px] font-bold pl-3 pr-2 py-1.5 rounded hover:bg-forest hover:text-white transition-colors'
               >
                 {chip.label}
                 <svg width='10' height='10' viewBox='0 0 24 24' fill='none'>
@@ -281,7 +281,7 @@ export default function ShopFilters({ products }: { products: Product[] }) {
           <div className='flex flex-col items-start gap-2'>
             <button
               onClick={() => setMobileFiltersOpen(true)}
-              className='lg:hidden inline-flex items-center gap-2 border border-line rounded-lg px-3.5 py-2.5 text-[13px] font-bold text-navy bg-white hover:border-forest/40 transition-colors'
+              className='lg:hidden inline-flex items-center gap-2 border border-line rounded-md px-3.5 py-2.5 text-[13px] font-bold text-navy bg-white hover:border-forest/40 transition-colors'
             >
               <svg width='14' height='14' viewBox='0 0 24 24' fill='none'>
                 <path
@@ -308,7 +308,7 @@ export default function ShopFilters({ products }: { products: Product[] }) {
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value)}
-              className='appearance-none border border-line rounded-lg pl-3.5 pr-9 py-2.5 text-[13px] font-semibold text-navy bg-white cursor-pointer hover:border-forest/40 transition-colors focus:outline-none focus:ring-2 focus:ring-forest/30'
+              className='appearance-none border border-[#cfd4da] rounded-md pl-3.5 pr-9 py-2.5 text-[13px] font-semibold text-navy bg-white cursor-pointer hover:border-forest/40 transition-colors focus:outline-none focus:ring-2 focus:ring-forest/30'
             >
               <option>Featured</option>
               <option>Price: Low to High</option>
@@ -333,9 +333,9 @@ export default function ShopFilters({ products }: { products: Product[] }) {
           </div>
         </div>
 
-        <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5'>
           {filtered.length === 0 ? (
-            <div className='col-span-full flex flex-col items-center justify-center text-center py-20 text-muted text-sm bg-bg-soft rounded-2xl border border-line'>
+            <div className='col-span-full flex flex-col items-center justify-center text-center py-20 text-muted text-sm bg-bg-soft rounded-md border border-line'>
               <svg
                 width='40'
                 height='40'
@@ -372,7 +372,7 @@ export default function ShopFilters({ products }: { products: Product[] }) {
             </div>
           ) : (
             filtered.map((p, i) => (
-              <ProductCard key={p.id} product={p} delay={(i % 6) * 60} />
+              <ProductCard key={p.id} product={p} delay={(i % 6) * 70} />
             ))
           )}
         </div>

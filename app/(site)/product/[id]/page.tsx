@@ -7,6 +7,7 @@ import ProductCard from '@/components/ProductCard'
 import ProductTabs from '@/components/ProductTabs'
 import Stars from '@/components/Stars'
 import Reveal from '@/components/Reveal'
+import CertLogo from '@/components/CertLogo'
 import type { Metadata } from 'next'
 
 export async function generateMetadata({
@@ -53,6 +54,7 @@ const TRUST_BADGES = [
   },
   {
     label: 'GMP Certified',
+    logo: '/gmp-logo.jpg',
     icon: (
       <path
         d='M12 3l8 3.5v5c0 5-3.4 8.9-8 10-4.6-1.1-8-5-8-10v-5L12 3z'
@@ -178,7 +180,7 @@ export default async function ProductDetailPage({
         type='application/ld+json'
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-      <div className='max-w-[1240px] mx-auto px-5 sm:px-8 py-5 text-[13px] text-muted overflow-x-auto whitespace-nowrap'>
+      <div className='max-w-[1240px] mx-auto px-5 sm:px-8 py-4 text-[13px] text-muted overflow-x-auto whitespace-nowrap'>
         <Link href='/' className='hover:text-forest'>
           Home
         </Link>
@@ -191,8 +193,13 @@ export default async function ProductDetailPage({
       </div>
 
       <section className='pt-2 sm:pt-4'>
-        <div className='max-w-[1240px] mx-auto px-5 sm:px-8 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-start'>
-          <Reveal>
+        <div className='max-w-[1240px] mx-auto px-5 sm:px-8 grid grid-cols-1 lg:grid-cols-2 gap-x-14 gap-y-5 lg:gap-y-0 items-start'>
+          {/* Mobile order: 1) title block  2) gallery  3) price/specs/CTA.
+              Desktop: gallery on the left, title + details stacked on the right. */}
+          <Reveal
+            variant='left'
+            className='order-2 lg:order-none lg:col-start-1 lg:row-start-1 lg:row-span-2'
+          >
             <ProductGallery
               images={product.images}
               icon={product.icon}
@@ -200,14 +207,18 @@ export default async function ProductDetailPage({
             />
           </Reveal>
 
-          <Reveal delay={100}>
+          <Reveal
+            variant='right'
+            delay={120}
+            className='order-1 lg:order-none lg:col-start-2 lg:row-start-1'
+          >
             <div>
               <div className='flex items-center justify-between gap-3 flex-wrap'>
-                <span className='inline-flex items-center text-[11px] font-extrabold text-gold uppercase tracking-wide bg-gold/10 px-3 py-1.5 rounded-full'>
+                <span className='inline-flex items-center text-[12px] font-semibold text-muted border border-line px-3 py-1 rounded'>
                   {product.type} · {product.pack}
                 </span>
                 <span
-                  className='text-[11px] font-bold px-3 py-1.5 rounded-full'
+                  className='text-[12px] font-semibold px-3 py-1 rounded'
                   style={{
                     color: product.stock === 'In Stock' ? '#0F6E4E' : '#C79A48',
                     background:
@@ -218,7 +229,7 @@ export default async function ProductDetailPage({
                 </span>
               </div>
 
-              <h1 className='text-[24px] sm:text-[30px] font-extrabold text-navy mt-3 leading-tight'>
+              <h1 className='font-serif text-[28px] sm:text-[36px] font-semibold text-navy mt-3 leading-tight'>
                 {product.name}
               </h1>
               <div className='text-[13.5px] sm:text-sm text-muted mt-1.5'>
@@ -228,14 +239,22 @@ export default async function ProductDetailPage({
               {product.rating > 0 && (
                 <Stars rating={product.rating} reviews={product.reviews} />
               )}
+            </div>
+          </Reveal>
 
-              <div className='mt-5 py-5 border-t border-b border-line'>
+          <Reveal
+            variant='right'
+            delay={160}
+            className='order-3 lg:order-none lg:col-start-2 lg:row-start-2'
+          >
+            <div>
+              <div className='mt-1 lg:mt-5 py-5 border-t border-b border-line'>
                 <div className='flex items-center gap-2.5 flex-wrap'>
-                  <div className='text-[26px] sm:text-[28px] font-extrabold text-navy'>
+                  <div className='text-[28px] font-bold text-navy'>
                     ₹{product.price}
                   </div>
                   {discount > 0 && (
-                    <span className='text-[11px] font-extrabold text-white bg-gradient-to-r from-gold to-[#B07F2A] px-2.5 py-1 rounded-full shadow-[0_4px_10px_-4px_rgba(199,154,72,0.5)]'>
+                    <span className='text-[12px] font-bold text-white bg-forest px-2.5 py-1 rounded'>
                       {discount}% OFF
                     </span>
                   )}
@@ -261,7 +280,7 @@ export default async function ProductDetailPage({
               <div className='flex flex-col gap-3 mt-7'>
                 <Link
                   href='/contact'
-                  className='w-full sm:w-auto bg-forest text-white px-8 py-4 rounded-xl font-bold text-sm inline-flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5 hover:shadow-[0_16px_30px_-14px_rgba(15,110,78,0.55)]'
+                  className='w-full sm:w-auto bg-forest text-white px-8 py-3.5 rounded-md font-bold text-[14.5px] inline-flex items-center justify-center gap-2 transition-colors hover:bg-forest-dark'
                 >
                   <svg width='15' height='15' viewBox='0 0 24 24' fill='none'>
                     <path
@@ -275,8 +294,8 @@ export default async function ProductDetailPage({
                 </Link>
                 <div className='flex gap-3'>
                   <a
-                    href='https://wa.me/919876543210'
-                    className='flex-1 border-[1.5px] border-line px-4 sm:px-8 py-3.5 rounded-xl font-bold text-sm inline-flex items-center justify-center gap-2 transition-colors hover:border-forest hover:text-forest'
+                    href='https://wa.me/918679884419'
+                    className='flex-1 border border-[#cfd4da] px-4 sm:px-8 py-3 rounded-md font-bold text-[14px] inline-flex items-center justify-center gap-2 transition-colors hover:border-forest hover:text-forest'
                   >
                     <svg width='15' height='15' viewBox='0 0 24 24' fill='none'>
                       <path
@@ -289,8 +308,8 @@ export default async function ProductDetailPage({
                     WhatsApp
                   </a>
                   <a
-                    href='tel:+919876543210'
-                    className='flex-1 border-[1.5px] border-line px-4 sm:px-8 py-3.5 rounded-xl font-bold text-sm inline-flex items-center justify-center gap-2 transition-colors hover:border-forest hover:text-forest'
+                    href='tel:+918679884419'
+                    className='flex-1 border border-[#cfd4da] px-4 sm:px-8 py-3 rounded-md font-bold text-[14px] inline-flex items-center justify-center gap-2 transition-colors hover:border-forest hover:text-forest'
                   >
                     <svg width='15' height='15' viewBox='0 0 24 24' fill='none'>
                       <path
@@ -309,16 +328,30 @@ export default async function ProductDetailPage({
                 {TRUST_BADGES.map((b) => (
                   <div
                     key={b.label}
-                    className='flex items-center gap-2 text-[12px] font-semibold text-navy bg-bg-soft border border-line/80 rounded-full pl-2 pr-3.5 py-1.5'
+                    className='flex items-center gap-2 text-[12px] font-semibold text-navy bg-bg-soft border border-line rounded pl-2 pr-3.5 py-1.5'
                   >
-                    <span className='w-6 h-6 rounded-full bg-forest-pale flex items-center justify-center shrink-0'>
-                      <svg
-                        className='w-3.5 h-3.5'
-                        viewBox='0 0 24 24'
-                        fill='none'
-                      >
-                        {b.icon}
-                      </svg>
+                    <span className='w-6 h-6 rounded bg-forest-pale flex items-center justify-center shrink-0'>
+                      {(() => {
+                        const iconSvg = (
+                          <svg
+                            className='w-3.5 h-3.5'
+                            viewBox='0 0 24 24'
+                            fill='none'
+                          >
+                            {b.icon}
+                          </svg>
+                        )
+                        return 'logo' in b && b.logo ? (
+                          <CertLogo
+                            src={b.logo}
+                            alt={b.label}
+                            className='w-4 h-4'
+                            fallback={iconSvg}
+                          />
+                        ) : (
+                          iconSvg
+                        )
+                      })()}
                     </span>
                     {b.label}
                   </div>
@@ -338,12 +371,12 @@ export default async function ProductDetailPage({
       {related.length > 0 && (
         <section className='pb-20 sm:pb-24'>
           <div className='max-w-[1240px] mx-auto px-5 sm:px-8'>
-            <h2 className='text-2xl sm:text-3xl font-extrabold text-navy mb-8 sm:mb-10'>
+            <h2 className='font-serif text-[28px] sm:text-[32px] font-semibold text-navy mb-8'>
               Related Products
             </h2>
-            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6'>
+            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5'>
               {related.map((p, i) => (
-                <ProductCard key={p.id} product={p} delay={i * 80} />
+                <ProductCard key={p.id} product={p} delay={i * 90} />
               ))}
             </div>
           </div>
