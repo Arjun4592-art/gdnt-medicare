@@ -214,3 +214,45 @@ button:focus-visible {
     animation: none !important;
   }
 }
+
+/* ---------- Site loader (components/SiteLoader.tsx) ---------- */
+html[data-loader='skip'] #site-loader {
+  display: none !important;
+}
+@keyframes loaderLogo {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+@keyframes loaderText {
+  0%,
+  35% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes loaderGlow {
+  0%,
+  100% {
+    transform: scale(0.92);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.85;
+  }
+}
+@theme inline {
+  --animate-loader-logo: loaderLogo 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-loader-text: loaderText 1s ease-out both;
+  --animate-loader-glow: loaderGlow 2.8s ease-in-out infinite;
+}
