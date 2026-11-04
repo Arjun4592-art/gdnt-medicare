@@ -4,7 +4,6 @@ import ProductCard from '@/components/ProductCard'
 import HeroVideo from '@/components/HeroVideo'
 import CertLogo from '@/components/CertLogo'
 import Reveal from '@/components/Reveal'
-import CountUp from '@/components/CountUp'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -261,23 +260,6 @@ export default async function Home() {
                 Send an enquiry
               </Link>
             </div>
-
-            <dl className='animate-rise [animation-delay:420ms] mt-12 pt-8 border-t border-line grid grid-cols-3 gap-6 max-w-[520px]'>
-              {[
-                ['500+', 'Doctors & pharmacy partners'],
-                ['80+', 'Formulations'],
-                ['24 hr', 'Response time'],
-              ].map(([num, lbl]) => (
-                <div key={lbl}>
-                  <dt className='font-serif text-[30px] sm:text-[34px] font-semibold text-navy leading-none'>
-                    <CountUp value={num} />
-                  </dt>
-                  <dd className='mt-2 text-[12.5px] text-muted leading-snug'>
-                    {lbl}
-                  </dd>
-                </div>
-              ))}
-            </dl>
           </div>
 
           <div className='animate-zoom [animation-delay:200ms]'>
@@ -305,26 +287,40 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ASSURANCES */}
+      {/* ASSURANCES: scrolling strip (pauses on hover) */}
       <section className='bg-bg-soft border-b border-line'>
-        <ul
-          className={`${wrap} grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-3 py-5`}
+        <div
+          className='marquee overflow-hidden py-5'
+          style={{
+            maskImage:
+              'linear-gradient(to right, transparent, #000 6%, #000 94%, transparent)',
+            WebkitMaskImage:
+              'linear-gradient(to right, transparent, #000 6%, #000 94%, transparent)',
+          }}
         >
-          {ASSURANCES.map((a, i) => (
-            <li key={a}>
-              <Reveal
-                delay={i * 90}
-                variant='fade'
-                className='flex items-center gap-2.5 text-[14px] font-semibold text-navy'
+          <div className='flex w-max animate-marquee'>
+            {[0, 1].map((dup) => (
+              <ul
+                key={dup}
+                aria-hidden={dup === 1}
+                className='flex shrink-0 items-center'
               >
-                <span className='text-forest shrink-0'>
-                  <Check />
-                </span>
-                {a}
-              </Reveal>
-            </li>
-          ))}
-        </ul>
+                {/* items repeated so one copy is always wider than the screen */}
+                {[...ASSURANCES, ...ASSURANCES].map((a, i) => (
+                  <li
+                    key={i}
+                    className='flex items-center gap-2.5 pr-14 whitespace-nowrap text-[14px] font-semibold text-navy'
+                  >
+                    <span className='text-forest shrink-0'>
+                      <Check />
+                    </span>
+                    {a}
+                  </li>
+                ))}
+              </ul>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* CATEGORIES */}

@@ -1,8 +1,6 @@
 import Link from 'next/link'
 import CertLogo from '@/components/CertLogo'
-import WhoGmpMark from '@/components/WhoGmpMark'
 import Reveal from '@/components/Reveal'
-import CountUp from '@/components/CountUp'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -50,8 +48,36 @@ const FACTS: [string, string][] = [
 ]
 
 const CERTS = [
-  { label: 'WHO-GMP', both: true, src: '' },
-  { label: 'ISO', both: false, src: '/iso-logo.png' },
+  { label: 'WHO', src: '/who-logo.png' },
+  { label: 'GMP', src: '/gmp-logo.jpg' },
+  { label: 'ISO', src: '/iso-logo.png' },
+]
+
+const CERT_CARDS = [
+  {
+    key: 'who',
+    src: '/who-logo.png',
+    short: 'WHO',
+    name: 'World Health Organization',
+    tag: 'Global standards',
+    desc: 'We follow the quality and safety guidelines set by the World Health Organization for the manufacture and supply of medicines.',
+  },
+  {
+    key: 'gmp',
+    src: '/gmp-logo.jpg',
+    short: 'GMP',
+    name: 'GMP Certified',
+    tag: 'Good Manufacturing Practice',
+    desc: 'Products are made, tested and released under Good Manufacturing Practices, to strict quality norms at every stage.',
+  },
+  {
+    key: 'iso',
+    src: '/iso-logo.png',
+    short: 'ISO',
+    name: 'ISO Certified',
+    tag: 'Quality management',
+    desc: 'Our quality management processes are aligned with international ISO standards, covering documentation, consistency and continuous improvement.',
+  },
 ]
 
 const wrap = 'max-w-[1240px] mx-auto px-5 sm:px-8'
@@ -149,22 +175,18 @@ export default function AboutPage() {
                     key={c.label}
                     className='flex items-center gap-2.5 pr-4 pl-1.5 py-1.5 bg-white border border-line rounded-md transition-transform duration-300 hover:-translate-y-0.5'
                   >
-                    {c.both ? (
-                      <WhoGmpMark size='sm' bare />
-                    ) : (
-                      <span className='w-10 h-10 flex items-center justify-center'>
-                        <CertLogo
-                          src={c.src}
-                          alt={`${c.label} logo`}
-                          className='max-w-full max-h-full'
-                          fallback={
-                            <span className='text-forest font-bold text-xs'>
-                              {c.label}
-                            </span>
-                          }
-                        />
-                      </span>
-                    )}
+                    <span className='w-10 h-10 flex items-center justify-center'>
+                      <CertLogo
+                        src={c.src}
+                        alt={`${c.label} logo`}
+                        className='max-w-full max-h-full'
+                        fallback={
+                          <span className='text-forest font-bold text-xs'>
+                            {c.label}
+                          </span>
+                        }
+                      />
+                    </span>
                     <span className='text-[13px] font-bold text-navy'>
                       {c.label}
                     </span>
@@ -176,30 +198,57 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* NUMBERS */}
-      <section className='border-y border-line bg-bg-soft'>
-        <dl
-          className={`${wrap} grid grid-cols-2 lg:grid-cols-4 divide-x divide-line`}
-        >
-          {[
-            ['500+', 'Pharmacy partners'],
-            ['80+', 'Formulations'],
-            ['WHO-GMP', 'Certified facility'],
-            ['24 hr', 'Response time'],
-          ].map(([num, lbl], i) => (
-            <Reveal
-              key={lbl}
-              delay={i * 90}
-              variant='fade'
-              className={`py-8 px-5 sm:px-8 ${i >= 2 ? 'border-t border-line lg:border-t-0' : ''} ${i === 0 ? 'lg:pl-0' : ''}`}
-            >
-              <dt className='font-serif text-[36px] font-semibold text-navy leading-none'>
-                <CountUp value={num} />
-              </dt>
-              <dd className='mt-2 text-[13.5px] text-muted'>{lbl}</dd>
-            </Reveal>
-          ))}
-        </dl>
+      {/* CERTIFICATIONS */}
+      <section className='border-y border-line bg-bg-soft py-16 md:py-24'>
+        <div className={wrap}>
+          <Reveal variant='left'>
+            <div className='flex items-center gap-3 text-[12.5px] font-bold uppercase tracking-[0.1em] text-forest'>
+              <span className='rule-grow h-px bg-forest' />
+              Our certifications
+            </div>
+            <h2 className='mt-3 text-[30px] md:text-[38px] font-semibold text-navy leading-[1.15] max-w-[620px]'>
+              Quality you can verify
+            </h2>
+            <p className='mt-3 text-[15.5px] text-muted leading-relaxed max-w-[560px]'>
+              Recognised standards sit behind every product we supply to doctors
+              and medical stores.
+            </p>
+          </Reveal>
+
+          <div className='mt-10 grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6'>
+            {CERT_CARDS.map((c, i) => (
+              <Reveal key={c.key} delay={i * 120}>
+                <article className='h-full bg-white border border-line rounded-md overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-forest/40 hover:shadow-[0_14px_30px_-14px_rgba(15,110,78,0.25)]'>
+                  <div className='h-[130px] flex items-center justify-center bg-forest-pale/40 border-b border-line'>
+                    <CertLogo
+                      src={c.src}
+                      alt={`${c.name} logo`}
+                      className='h-16 w-auto'
+                      fallback={
+                        <span className='font-serif text-[34px] font-semibold text-forest'>
+                          {c.short}
+                        </span>
+                      }
+                    />
+                  </div>
+                  <div className='p-6'>
+                    <div className='flex items-center justify-between gap-3 flex-wrap'>
+                      <h3 className='text-[18px] font-bold text-navy'>
+                        {c.name}
+                      </h3>
+                      <span className='text-[11.5px] font-bold uppercase tracking-[0.08em] text-forest bg-forest-pale px-2.5 py-1 rounded'>
+                        {c.tag}
+                      </span>
+                    </div>
+                    <p className='mt-3 text-[15px] text-muted leading-relaxed'>
+                      {c.desc}
+                    </p>
+                  </div>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* VALUES */}
