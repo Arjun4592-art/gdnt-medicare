@@ -279,7 +279,7 @@ export default async function ProductDetailPage({
 
               <div className='flex flex-col gap-3 mt-7'>
                 <Link
-                  href='/contact'
+                  href={`/contact?product=${encodeURIComponent(product.name)}`}
                   className='w-full sm:w-auto bg-forest text-white px-8 py-3.5 rounded-md font-bold text-[14.5px] inline-flex items-center justify-center gap-2 transition-colors hover:bg-forest-dark'
                 >
                   <svg width='15' height='15' viewBox='0 0 24 24' fill='none'>

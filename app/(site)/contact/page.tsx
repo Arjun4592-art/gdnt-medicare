@@ -42,7 +42,14 @@ const DETAILS = [
 
 const wrap = 'max-w-[1240px] mx-auto px-5 sm:px-8'
 
-export default function ContactPage() {
+export default async function ContactPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ product?: string | string[] }>
+}) {
+  const { product } = await searchParams
+  const defaultProduct = (Array.isArray(product) ? product[0] : product) ?? ''
+
   return (
     <>
       <div className='border-b border-line bg-bg-soft'>
@@ -104,7 +111,7 @@ export default function ContactPage() {
           </Reveal>
 
           <Reveal variant='right' delay={120}>
-            <ContactForm />
+            <ContactForm defaultProduct={defaultProduct.slice(0, 200)} />
           </Reveal>
         </div>
       </section>

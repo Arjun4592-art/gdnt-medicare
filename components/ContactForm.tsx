@@ -3,7 +3,11 @@
 import { useState, FormEvent } from 'react'
 import { submitEnquiry } from '@/lib/actions/enquiries'
 
-export default function ContactForm() {
+export default function ContactForm({
+  defaultProduct = '',
+}: {
+  defaultProduct?: string
+}) {
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -12,11 +16,12 @@ export default function ContactForm() {
     e.preventDefault()
     setLoading(true)
     setError('')
+    setSubmitted(false)
     const form = e.currentTarget
     const formData = new FormData(form)
 
     try {
-      await submitEnquiry({
+      const res = await submitEnquiry({
         name: formData.get('name') as string,
         store_name: formData.get('store_name') as string,
         phone: formData.get('phone') as string,
@@ -25,11 +30,17 @@ export default function ContactForm() {
         product_id: null,
         message: formData.get('message') as string,
       })
+      if (!res.ok) {
+        setSubmitted(false)
+        setError(res.error)
+        return
+      }
       setSubmitted(true)
       form.reset()
     } catch (err) {
+      setSubmitted(false)
       setError(
-        'Something went wrong — please try again or contact us via WhatsApp/phone.',
+        'Something went wrong. Please try again or contact us via WhatsApp/phone.',
       )
       console.error(err)
     } finally {
@@ -103,6 +114,7 @@ export default function ContactForm() {
           <input
             name='product_name'
             type='text'
+            defaultValue={defaultProduct}
             placeholder='e.g. Amlogard 5mg — bulk quote'
             className='w-full border border-[#cfd4da] rounded-md px-3.5 py-3 text-[14.5px] bg-white focus:outline-none focus:border-forest focus:ring-2 focus:ring-forest/20'
           />
@@ -126,12 +138,18 @@ export default function ContactForm() {
           {loading ? 'Sending...' : 'Send enquiry'}
         </button>
         {submitted && (
-          <p className='text-forest text-[13px] font-bold text-center'>
+          <p
+            role='status'
+            className='bg-forest-pale border border-forest/20 rounded-md py-3 px-4 text-forest text-[13.5px] font-bold text-center'
+          >
             Thank you. We&apos;ll get back to you shortly.
           </p>
         )}
         {error && (
-          <p className='text-[#C0392B] text-[13px] font-bold text-center'>
+          <p
+            role='alert'
+            className='text-[#C0392B] text-[13px] font-bold text-center'
+          >
             {error}
           </p>
         )}
