@@ -237,8 +237,7 @@ export default async function Home() {
               An ethical pharmaceutical company
             </div>
             <h1 className='animate-rise [animation-delay:100ms] mt-5 text-[38px] sm:text-[46px] lg:text-[54px] font-semibold text-navy leading-[1.08]'>
-              Genuine medicines, supplied directly to doctors and medical
-              stores.
+              Genuine medicines, supplied directly to trusted retailers.
             </h1>
             <p className='animate-rise [animation-delay:200ms] mt-6 text-[16.5px] text-muted leading-relaxed max-w-[540px]'>
               GDNT Medicare works with certified manufacturers and checks
