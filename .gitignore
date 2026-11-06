@@ -46,3 +46,6 @@ supabase/.branches
 .vscode/*
 !.vscode/extensions.json
 .idea
+
+/scripts
+/New Images
