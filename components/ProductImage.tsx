@@ -39,7 +39,7 @@ export default function ProductImage({
         alt={alt}
         fill
         sizes='(max-width: 640px) 50vw, (max-width: 1280px) 33vw, 300px'
-        className={`object-cover transition-all duration-500 group-hover:scale-[1.08] ${
+        className={`object-contain p-3 sm:p-4 transition-all duration-500 group-hover:scale-[1.05] ${
           status === 'loading' ? 'opacity-0' : 'opacity-100'
         }`}
         onLoad={() => setStatus('loaded')}

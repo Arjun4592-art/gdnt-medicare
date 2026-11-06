@@ -84,7 +84,7 @@ export default function ProductGallery({
                 alt={`${name} thumbnail`}
                 fill
                 sizes='72px'
-                className='object-cover'
+                className='object-contain p-1'
                 onError={() => markFailed(i)}
               />
             </button>

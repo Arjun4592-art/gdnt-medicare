@@ -400,7 +400,7 @@ export default function ProductFormPage({
                         alt='Product'
                         fill
                         sizes='92px'
-                        className='object-cover'
+                        className='object-contain p-1 bg-white'
                       />
                       <button
                         type='button'

@@ -944,7 +944,7 @@ function ProductsPanel({
                             alt={p.name}
                             width={38}
                             height={38}
-                            className='w-full h-full object-cover'
+                            className='w-full h-full object-contain'
                           />
                         ) : (
                           <ProductIcon
