@@ -1,0 +1,70 @@
+[
+  {
+    "product": "GD-Calpro Softgel Capsules",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946509/gdnt-medicare/products/gd-calpro-softgel-capsules/gd-calpro-softgel-capsules-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946512/gdnt-medicare/products/gd-calpro-softgel-capsules/gd-calpro-softgel-capsules-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946514/gdnt-medicare/products/gd-calpro-softgel-capsules/gd-calpro-softgel-capsules-3.png"
+    ]
+  },
+  {
+    "product": "GD-HepZyme Syrup",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946515/gdnt-medicare/products/gd-hepzyme-syrup/gd-hepzyme-syrup-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946517/gdnt-medicare/products/gd-hepzyme-syrup/gd-hepzyme-syrup-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946518/gdnt-medicare/products/gd-hepzyme-syrup/gd-hepzyme-syrup-3.png"
+    ]
+  },
+  {
+    "product": "GD-Lulicon Cream",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946518/gdnt-medicare/products/gd-lulicon-cream/gd-lulicon-cream-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946519/gdnt-medicare/products/gd-lulicon-cream/gd-lulicon-cream-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946519/gdnt-medicare/products/gd-lulicon-cream/gd-lulicon-cream-3.png"
+    ]
+  },
+  {
+    "product": "GD-Mef DR Tablets",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946520/gdnt-medicare/products/gd-mef-dr-tablets/gd-mef-dr-tablets-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946521/gdnt-medicare/products/gd-mef-dr-tablets/gd-mef-dr-tablets-3.png"
+    ]
+  },
+  {
+    "product": "GD-Mefec Tablets",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946523/gdnt-medicare/products/gd-mefec-tablets/gd-mefec-tablets-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946523/gdnt-medicare/products/gd-mefec-tablets/gd-mefec-tablets-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946524/gdnt-medicare/products/gd-mefec-tablets/gd-mefec-tablets-3.png"
+    ]
+  },
+  {
+    "product": "Gdmika-500 Injection",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946561/gdnt-medicare/products/gdmika-500-injection/gdmika-500-injection-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946565/gdnt-medicare/products/gdmika-500-injection/gdmika-500-injection-3.png"
+    ]
+  },
+  {
+    "product": "Gdset-4 Tablets",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946601/gdnt-medicare/products/gdset-4-tablets/gdset-4-tablets-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946606/gdnt-medicare/products/gdset-4-tablets/gdset-4-tablets-2.png"
+    ]
+  },
+  {
+    "product": "GD-Vitacore Tablets",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946609/gdnt-medicare/products/gd-vitacore-tablets/gd-vitacore-tablets-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946610/gdnt-medicare/products/gd-vitacore-tablets/gd-vitacore-tablets-3.png"
+    ]
+  }
+]

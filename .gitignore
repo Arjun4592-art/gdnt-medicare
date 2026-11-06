@@ -47,5 +47,5 @@ supabase/.branches
 !.vscode/extensions.json
 .idea
 
-/scripts
-/New Images
+New Images/
+export/
