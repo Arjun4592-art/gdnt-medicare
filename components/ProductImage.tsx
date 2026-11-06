@@ -3,16 +3,19 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { ProductIcon as IconType } from '@/lib/products'
+import { cld, isCloudinary } from '@/lib/cloudinary'
 import ProductIcon from './ProductIcon'
 
 export default function ProductImage({
   src,
   alt,
   icon,
+  priority = false,
 }: {
   src: string | undefined
   alt: string
   icon: IconType
+  priority?: boolean
 }) {
   const [status, setStatus] = useState<'loading' | 'loaded' | 'error'>(
     src ? 'loading' : 'error',
@@ -31,13 +34,16 @@ export default function ProductImage({
 
   return (
     <>
+      {/* skeleton shimmer while the image downloads */}
       {status === 'loading' && (
-        <div className='absolute inset-0 animate-pulse bg-gradient-to-br from-line/60 via-bg-soft to-line/60' />
+        <div aria-hidden className='skeleton absolute inset-0' />
       )}
       <Image
-        src={src}
+        src={cld(src, 640)}
+        unoptimized={isCloudinary(src)}
         alt={alt}
         fill
+        priority={priority}
         sizes='(max-width: 640px) 50vw, (max-width: 1280px) 33vw, 300px'
         className={`object-contain p-3 sm:p-4 transition-all duration-500 group-hover:scale-[1.05] ${
           status === 'loading' ? 'opacity-0' : 'opacity-100'

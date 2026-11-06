@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import ProductIcon from './ProductIcon'
 import { ProductIcon as IconType } from '@/lib/products'
+import { cld, isCloudinary } from '@/lib/cloudinary'
 
 export default function ProductGallery({
   images,
@@ -17,6 +18,7 @@ export default function ProductGallery({
   const [failed, setFailed] = useState<Set<number>>(new Set())
   const [active, setActive] = useState(0)
   const [mainLoaded, setMainLoaded] = useState(false)
+  const [thumbLoaded, setThumbLoaded] = useState<Set<number>>(new Set())
 
   const valid = images
     .map((src, i) => ({ src, i }))
@@ -40,11 +42,12 @@ export default function ProductGallery({
         {current ? (
           <>
             {!mainLoaded && (
-              <div className='absolute inset-0 animate-pulse bg-gradient-to-br from-line/50 via-bg-soft to-line/50' />
+              <div aria-hidden className='skeleton absolute inset-0' />
             )}
             <Image
               key={current.src}
-              src={current.src}
+              src={cld(current.src, 1000)}
+              unoptimized={isCloudinary(current.src)}
               alt={name}
               fill
               priority
@@ -79,12 +82,19 @@ export default function ProductGallery({
                   : 'border-transparent hover:border-forest/50'
               }`}
             >
+              {!thumbLoaded.has(i) && (
+                <div aria-hidden className='skeleton absolute inset-0' />
+              )}
               <Image
-                src={src}
+                src={cld(src, 200)}
+                unoptimized={isCloudinary(src)}
                 alt={`${name} thumbnail`}
                 fill
                 sizes='72px'
-                className='object-contain p-1'
+                className={`object-contain p-1 transition-opacity duration-300 ${
+                  thumbLoaded.has(i) ? 'opacity-100' : 'opacity-0'
+                }`}
+                onLoad={() => setThumbLoaded((prev) => new Set(prev).add(i))}
                 onError={() => markFailed(i)}
               />
             </button>
