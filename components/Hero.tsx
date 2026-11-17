@@ -302,7 +302,7 @@ export default function Hero({
               ))}
             </span>
             <span className='whitespace-nowrap'>
-              WHO, GMP and ISO certified
+              WHO, GMP and ISO certified products
             </span>
           </div>
         </div>
