@@ -279,7 +279,8 @@ export default async function Home() {
             text='Five ranges covering the everyday needs of clinics, hospitals and retail pharmacies.'
             link={{ href: '/shop', text: 'View full catalog' }}
           />
-          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 border-t border-l border-line'>
+          {/* Phones + tablets: swipeable row of cards. Desktop: 5-column grid. */}
+          <div className='-mx-5 sm:-mx-8 lg:mx-0 flex gap-3 overflow-x-auto overscroll-x-contain snap-x snap-mandatory scroll-pl-5 sm:scroll-pl-8 px-5 sm:px-8 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:grid lg:grid-cols-5 lg:gap-0 lg:overflow-visible lg:snap-none lg:px-0 lg:pb-0 lg:border-t lg:border-l lg:border-line'>
             {CATEGORIES.map((c, i) => {
               const total = products.filter((p) =>
                 c.forms ? c.forms.includes(p.type) : p.cat === c.cat,
@@ -287,8 +288,8 @@ export default async function Home() {
               return (
                 <Reveal
                   key={c.label}
-                  delay={i * 90}
-                  className='border-r border-b border-line'
+                  delay={i < 2 ? i * 90 : 0}
+                  className='shrink-0 snap-start w-[76%] sm:w-[300px] lg:w-auto rounded-md overflow-hidden border border-line lg:rounded-none lg:overflow-visible lg:border-0 lg:border-r lg:border-b'
                 >
                   <Link
                     href={c.href}

@@ -119,7 +119,11 @@ function BlurText({
   }
 
   return (
-    <Tag ref={ref as never} className={`${className} flex flex-wrap`}>
+    <Tag
+      ref={ref as never}
+      className={`${className} flex flex-wrap`}
+      style={{ columnGap: animateBy === 'words' ? '0.27em' : undefined }}
+    >
       {elements.map((segment, index) => {
         // explicit line break (only from `sm` up; on phones words wrap naturally)
         if (segment === '\n') {
@@ -151,10 +155,6 @@ function BlurText({
             }
           >
             {segment === ' ' ? '\u00A0' : segment}
-            {animateBy === 'words' &&
-              index < elements.length - 1 &&
-              elements[index + 1] !== '\n' &&
-              '\u00A0'}
           </motion.span>
         )
       })}
@@ -236,17 +236,18 @@ export default function Hero({
       />
 
       <div
-        className={`${wrap} flex min-h-[640px] lg:min-h-[max(680px,calc(100svh_-_36px))] flex-col items-center justify-center pt-[calc(3rem+72px)] pb-14 lg:pt-[calc(2rem+72px)] lg:pb-16 text-center`}
+        className={`${wrap} flex min-h-[640px] lg:min-h-[max(680px,calc(100svh_-_36px))] flex-col items-center justify-center pt-[calc(2rem+72px)] pb-12 sm:pt-[calc(3rem+72px)] sm:pb-14 lg:pt-[calc(2rem+72px)] lg:pb-16 text-center`}
       >
         <div className='max-w-[900px] flex flex-col items-center'>
           {/* eyebrow chip */}
-          <div className='animate-rise inline-flex items-center gap-2.5 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-[12px] font-bold uppercase tracking-[0.12em] text-white backdrop-blur-sm'>
+          <div className='animate-rise inline-flex max-w-full items-center gap-2 sm:gap-2.5 whitespace-nowrap rounded-full border border-white/25 bg-white/10 px-3.5 sm:px-4 py-1.5 text-[10.5px] sm:text-[12px] font-bold uppercase tracking-[0.08em] sm:tracking-[0.12em] text-white backdrop-blur-sm'>
             <span className='h-1.5 w-1.5 rounded-full bg-[#4ade9c]' />
             An ethical pharmaceutical company
           </div>
 
           <h1
-            className='mt-6 text-[40px] sm:text-[52px] lg:text-[64px] font-semibold text-white leading-[1.08] [text-shadow:0_2px_28px_rgba(6,16,32,0.5)]'
+            className='mt-5 sm:mt-6 font-semibold text-white leading-[1.08] [text-shadow:0_2px_28px_rgba(6,16,32,0.5)]'
+            style={{ fontSize: 'clamp(2rem, 9.2vw, 4rem)' }}
             aria-label='Genuine medicines, supplied directly to trusted retailers.'
           >
             <BlurText
@@ -262,30 +263,33 @@ export default function Hero({
             />
           </h1>
 
-          <p className='animate-rise [animation-delay:700ms] mt-6 text-[17px] sm:text-[18px] text-white/90 leading-relaxed max-w-[640px] text-balance [text-shadow:0_1px_14px_rgba(6,16,32,0.6)]'>
+          <p
+            className='animate-rise [animation-delay:700ms] mt-5 sm:mt-6 text-white/90 leading-relaxed max-w-[640px] text-balance [text-shadow:0_1px_14px_rgba(6,16,32,0.6)]'
+            style={{ fontSize: 'clamp(0.97rem, 2.2vw, 1.125rem)' }}
+          >
             GDNT Medicare works with certified manufacturers and checks quality
             at every stage, from sourcing to dispatch. Browse the catalog, then
             enquire for trade pricing.
           </p>
 
-          <div className='animate-rise [animation-delay:850ms] mt-8 flex flex-wrap justify-center gap-3'>
+          <div className='animate-rise [animation-delay:850ms] mt-7 sm:mt-8 flex w-full flex-col items-center gap-3 sm:w-auto sm:flex-row'>
             <Link
               href='/shop'
-              className='group inline-flex items-center gap-2 bg-white text-forest-dark px-8 py-3.5 rounded-md font-bold text-[15px] shadow-lg shadow-black/20 transition-colors hover:bg-forest-pale'
+              className='group inline-flex w-full max-w-[300px] sm:w-auto sm:max-w-none items-center justify-center gap-2 bg-white text-forest-dark px-8 py-3.5 rounded-md font-bold text-[15px] shadow-lg shadow-black/20 transition-colors hover:bg-forest-pale'
             >
               Browse catalog
               <Arrow className='transition-transform group-hover:translate-x-1' />
             </Link>
             <Link
               href='/contact'
-              className='inline-flex items-center border border-white/60 bg-white/5 text-white px-8 py-3.5 rounded-md font-bold text-[15px] backdrop-blur-sm transition-colors hover:border-white hover:bg-white/15'
+              className='inline-flex w-full max-w-[300px] sm:w-auto sm:max-w-none items-center justify-center border border-white/60 bg-white/5 text-white px-8 py-3.5 rounded-md font-bold text-[15px] backdrop-blur-sm transition-colors hover:border-white hover:bg-white/15'
             >
               Send an enquiry
             </Link>
           </div>
 
           {/* certification pill */}
-          <div className='animate-rise [animation-delay:1000ms] mt-10 inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 py-1.5 pl-2 pr-5 text-[13px] text-white backdrop-blur-sm'>
+          <div className='animate-rise [animation-delay:1000ms] mt-8 sm:mt-10 inline-flex flex-col sm:flex-row items-center gap-2.5 sm:gap-3 rounded-2xl sm:rounded-full border border-white/20 bg-white/10 px-5 py-3 sm:py-1.5 sm:pl-2 sm:pr-5 text-[12.5px] sm:text-[13px] text-white backdrop-blur-sm'>
             <span className='flex items-center gap-1.5'>
               {certs.map((c) => (
                 <span
@@ -300,7 +304,9 @@ export default function Hero({
                 </span>
               ))}
             </span>
-            WHO, GMP and ISO certified
+            <span className='whitespace-nowrap'>
+              WHO, GMP and ISO certified
+            </span>
           </div>
         </div>
       </div>
