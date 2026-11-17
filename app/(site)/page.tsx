@@ -280,7 +280,7 @@ export default async function Home() {
             link={{ href: '/shop', text: 'View full catalog' }}
           />
           {/* Phones + tablets: swipeable row of cards. Desktop: 5-column grid. */}
-          <div className='-mx-5 sm:-mx-8 lg:mx-0 flex gap-3 overflow-x-auto overscroll-x-contain snap-x snap-mandatory scroll-pl-5 sm:scroll-pl-8 px-5 sm:px-8 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:grid lg:grid-cols-5 lg:gap-0 lg:overflow-visible lg:snap-none lg:px-0 lg:pb-0 lg:border-t lg:border-l lg:border-line'>
+          <div className='-mx-5 sm:-mx-8 lg:mx-0 flex gap-3 overflow-x-auto overscroll-x-contain snap-x snap-mandatory scroll-pl-5 sm:scroll-pl-8 px-5 sm:px-8 pt-2 pb-2 -mt-2 overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:grid lg:grid-cols-5 lg:gap-0 lg:overflow-visible lg:snap-none lg:px-0 lg:pt-0 lg:pb-0 lg:mt-0 lg:border-t lg:border-l lg:border-line'>
             {CATEGORIES.map((c, i) => {
               const total = products.filter((p) =>
                 c.forms ? c.forms.includes(p.type) : p.cat === c.cat,
@@ -289,11 +289,11 @@ export default async function Home() {
                 <Reveal
                   key={c.label}
                   delay={i < 2 ? i * 90 : 0}
-                  className='shrink-0 snap-start w-[76%] sm:w-[300px] lg:w-auto rounded-md overflow-hidden border border-line lg:rounded-none lg:overflow-visible lg:border-0 lg:border-r lg:border-b'
+                  className='shrink-0 snap-start w-[76%] sm:w-[300px] lg:w-auto lg:border-r lg:border-b lg:border-line'
                 >
                   <Link
                     href={c.href}
-                    className='group flex h-full flex-col p-6 bg-white transition-colors duration-300 hover:bg-forest-pale/60'
+                    className='group flex h-full flex-col p-6 bg-white rounded-md border border-navy/15 transition-colors duration-300 hover:bg-forest-pale/60 lg:rounded-none lg:border-0'
                   >
                     <svg
                       className='transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-110'

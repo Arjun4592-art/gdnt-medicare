@@ -247,7 +247,13 @@ export default function Hero({
 
           <h1
             className='mt-5 sm:mt-6 font-semibold text-white leading-[1.08] [text-shadow:0_2px_28px_rgba(6,16,32,0.5)]'
-            style={{ fontSize: 'clamp(2rem, 9.2vw, 4rem)' }}
+            style={{
+              // phones: 10vw (36px @360, 44px @440); tablet: 56px; desktop: 64px
+              fontSize: 'max(clamp(2rem, 10vw, 3.5rem), min(6.25vw, 4rem))',
+              // let the heading use ~12px more width each side than the body text
+              width: 'calc(100% + 24px)',
+              maxWidth: 'none',
+            }}
             aria-label='Genuine medicines, supplied directly to trusted retailers.'
           >
             <BlurText
