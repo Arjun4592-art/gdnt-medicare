@@ -24,7 +24,7 @@ const DETAILS = [
     k: 'Phone',
     v: '+91 86798 84419',
     href: 'tel:+918679884419',
-    note: 'Mon–Sat, business hours',
+    note: '24/7 working hours',
   },
   {
     k: 'WhatsApp',
