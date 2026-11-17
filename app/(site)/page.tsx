@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { getProducts } from '@/lib/data'
 import ProductCard from '@/components/ProductCard'
-import HeroVideo from '@/components/HeroVideo'
+import Hero from '@/components/Hero'
 import CertLogo from '@/components/CertLogo'
 import Reveal from '@/components/Reveal'
 import type { Metadata } from 'next'
@@ -17,8 +17,9 @@ export const metadata: Metadata = {
 const CATEGORIES = [
   {
     label: 'Tablets & Capsules',
+    href: '/shop?form=Tablets,Capsules',
+    forms: ['Tablets', 'Capsules'],
     desc: 'Oral solid dosage forms across everyday and specialist therapy areas.',
-    count: '32 items',
     icon: (
       <>
         <rect x='3' y='8.5' width='18' height='7' rx='3.5' />
@@ -28,8 +29,9 @@ const CATEGORIES = [
   },
   {
     label: 'Syrups & Liquids',
+    href: '/shop?form=Syrup',
+    forms: ['Syrup'],
     desc: 'Syrups, suspensions and oral liquids for adults and children.',
-    count: '14 items',
     icon: (
       <>
         <path d='M9.5 3h5v4l3 4.5V19a2 2 0 01-2 2h-7a2 2 0 01-2-2v-7.5L9.5 7V3z' />
@@ -39,8 +41,9 @@ const CATEGORIES = [
   },
   {
     label: 'Injectables',
+    href: '/shop?form=Injection',
+    forms: ['Injection'],
     desc: 'Sterile injectable formulations for clinics and hospitals.',
-    count: '9 items',
     icon: (
       <>
         <path d='M18 3l3 3M16 5l3 3-9.5 9.5-3-3L16 5z' />
@@ -51,8 +54,9 @@ const CATEGORIES = [
   },
   {
     label: 'Ointments & Creams',
+    href: '/shop?form=Ointment',
+    forms: ['Ointment'],
     desc: 'Topical formulations for skin, pain and wound care.',
-    count: '11 items',
     icon: (
       <>
         <rect x='7' y='8' width='10' height='13' rx='1.5' />
@@ -63,8 +67,9 @@ const CATEGORIES = [
   },
   {
     label: 'Wellness & Supplements',
+    href: '/shop?cat=Wellness',
+    cat: 'Wellness',
     desc: 'Daily nutrition and wellness support products.',
-    count: '10 items',
     icon: (
       <>
         <path d='M12 21c-4.5-2-7-5.5-7-9.5V5l7-2 7 2v6.5c0 4-2.5 7.5-7 9.5z' />
@@ -80,7 +85,7 @@ const CERTS = [
     src: '/who-logo.png',
     short: 'WHO',
     name: 'World Health Organization',
-    desc: 'Manufacturing aligned with WHO-GMP guidelines for quality and safety.',
+    desc: 'Manufacturing aligned with WHO guidelines for quality and safety.',
   },
   {
     key: 'gmp',
@@ -99,7 +104,7 @@ const CERTS = [
 ]
 
 const ASSURANCES = [
-  'WHO-GMP certified formulations',
+  'WHO and GMP certified formulations',
   '100% genuine products',
   'Direct trade pricing',
   'Fast regional dispatch',
@@ -227,64 +232,7 @@ export default async function Home() {
   return (
     <>
       {/* HERO */}
-      <section className='border-b border-line'>
-        <div
-          className={`${wrap} grid grid-cols-1 lg:grid-cols-[1.05fr_1fr] gap-10 lg:gap-16 items-center py-12 lg:py-20`}
-        >
-          <div>
-            <div className='animate-rise flex items-center gap-3 text-[12.5px] font-bold uppercase tracking-[0.1em] text-forest'>
-              <span className='h-px w-7 bg-forest' />
-              An ethical pharmaceutical company
-            </div>
-            <h1 className='animate-rise [animation-delay:100ms] mt-5 text-[38px] sm:text-[46px] lg:text-[54px] font-semibold text-navy leading-[1.08]'>
-              Genuine medicines, supplied directly to trusted retailers.
-            </h1>
-            <p className='animate-rise [animation-delay:200ms] mt-6 text-[16.5px] text-muted leading-relaxed max-w-[540px]'>
-              GDNT Medicare works with certified manufacturers and checks
-              quality at every stage, from sourcing to dispatch. Browse the
-              catalog, then enquire for trade pricing.
-            </p>
-            <div className='animate-rise [animation-delay:300ms] mt-8 flex flex-wrap gap-3'>
-              <Link
-                href='/shop'
-                className='group inline-flex items-center gap-2 bg-forest text-white px-7 py-3.5 rounded-md font-bold text-[14.5px] transition-colors hover:bg-forest-dark'
-              >
-                Browse catalog
-                <Arrow className='transition-transform group-hover:translate-x-1' />
-              </Link>
-              <Link
-                href='/contact'
-                className='inline-flex items-center border border-navy/25 text-navy px-7 py-3.5 rounded-md font-bold text-[14.5px] transition-colors hover:border-navy hover:bg-bg-soft'
-              >
-                Send an enquiry
-              </Link>
-            </div>
-          </div>
-
-          <div className='animate-zoom [animation-delay:200ms]'>
-            <div className='relative aspect-[4/3] overflow-hidden rounded-md bg-bg-soft border border-line'>
-              <HeroVideo />
-            </div>
-            <div className='mt-3 flex items-center gap-3 text-[13px] text-muted'>
-              <span className='flex items-center gap-1.5'>
-                {CERTS.map((c) => (
-                  <span
-                    key={c.key}
-                    className='w-9 h-9 rounded border border-line bg-white flex items-center justify-center p-0.5'
-                  >
-                    <CertLogo
-                      src={c.src}
-                      alt={`${c.name} logo`}
-                      className='max-w-full max-h-full'
-                    />
-                  </span>
-                ))}
-              </span>
-              WHO-GMP and ISO certified
-            </div>
-          </div>
-        </div>
-      </section>
+      <Hero certs={CERTS} />
 
       {/* ASSURANCES: scrolling strip (pauses on hover) */}
       <section className='bg-bg-soft border-b border-line'>
@@ -332,46 +280,53 @@ export default async function Home() {
             link={{ href: '/shop', text: 'View full catalog' }}
           />
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 border-t border-l border-line'>
-            {CATEGORIES.map((c, i) => (
-              <Reveal
-                key={c.label}
-                delay={i * 90}
-                className='border-r border-b border-line'
-              >
-                <Link
-                  href='/shop'
-                  className='group flex h-full flex-col p-6 bg-white transition-colors duration-300 hover:bg-forest-pale/60'
+            {CATEGORIES.map((c, i) => {
+              const total = products.filter((p) =>
+                c.forms ? c.forms.includes(p.type) : p.cat === c.cat,
+              ).length
+              return (
+                <Reveal
+                  key={c.label}
+                  delay={i * 90}
+                  className='border-r border-b border-line'
                 >
-                  <svg
-                    className='transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-110'
-                    width='34'
-                    height='34'
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='#0F6E4E'
-                    strokeWidth='1.5'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    aria-hidden='true'
+                  <Link
+                    href={c.href}
+                    className='group flex h-full flex-col p-6 bg-white transition-colors duration-300 hover:bg-forest-pale/60'
                   >
-                    {c.icon}
-                  </svg>
-                  <h3 className='mt-5 text-[16.5px] font-bold text-navy leading-snug'>
-                    {c.label}
-                  </h3>
-                  <p className='mt-2 text-[13.5px] text-muted leading-relaxed flex-1'>
-                    {c.desc}
-                  </p>
-                  <div className='mt-5 flex items-center justify-between text-[13px]'>
-                    <span className='text-muted'>{c.count}</span>
-                    <span className='inline-flex items-center gap-1.5 font-bold text-forest'>
-                      View
-                      <Arrow className='transition-transform group-hover:translate-x-1' />
-                    </span>
-                  </div>
-                </Link>
-              </Reveal>
-            ))}
+                    <svg
+                      className='transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-110'
+                      width='34'
+                      height='34'
+                      viewBox='0 0 24 24'
+                      fill='none'
+                      stroke='#0F6E4E'
+                      strokeWidth='1.5'
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      aria-hidden='true'
+                    >
+                      {c.icon}
+                    </svg>
+                    <h3 className='mt-5 text-[16.5px] font-bold text-navy leading-snug'>
+                      {c.label}
+                    </h3>
+                    <p className='mt-2 text-[13.5px] text-muted leading-relaxed flex-1'>
+                      {c.desc}
+                    </p>
+                    <div className='mt-5 flex items-center justify-between text-[13px]'>
+                      <span className='text-muted'>
+                        {total} {total === 1 ? 'item' : 'items'}
+                      </span>
+                      <span className='inline-flex items-center gap-1.5 font-bold text-forest'>
+                        View
+                        <Arrow className='transition-transform group-hover:translate-x-1' />
+                      </span>
+                    </div>
+                  </Link>
+                </Reveal>
+              )
+            })}
           </div>
         </div>
       </section>

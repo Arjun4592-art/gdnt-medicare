@@ -22,6 +22,7 @@ export default function Header() {
   const [query, setQuery] = useState('')
   const [mounted, setMounted] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [pastTop, setPastTop] = useState(false)
   const searchInputRef = useRef<HTMLInputElement>(null)
 
   // Needed before using a portal, since document.body isn't available during SSR.
@@ -29,9 +30,14 @@ export default function Header() {
     setMounted(true)
   }, [])
 
-  // Soft shadow under the sticky header once the page is scrolled.
+  // Soft shadow once scrolled (8px). On the home page the header is transparent
+  // over the hero video until the page has scrolled 50px, then turns white.
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8)
+    const onScroll = () => {
+      setScrolled(window.scrollY > 8)
+      setPastTop(window.scrollY > 50)
+    }
+    onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
@@ -77,6 +83,10 @@ export default function Header() {
     setMenuOpen(false)
     setQuery('')
   }
+
+  const isHome = pathname === '/'
+  // Transparent only on the home page, at the very top, with no menu open.
+  const transparent = isHome && !pastTop && !menuOpen
 
   return (
     <>
@@ -132,8 +142,16 @@ export default function Header() {
       </div>
 
       <header
-        className={`sticky top-0 z-100 bg-white border-b border-line transition-shadow duration-300 ${
-          scrolled ? 'shadow-[0_8px_24px_-14px_rgba(20,24,31,0.35)]' : ''
+        className={`sticky top-0 z-100 border-b transition-[background-color,border-color,box-shadow] duration-300 ${
+          isHome ? '-mb-[73px]' : ''
+        } ${
+          transparent
+            ? 'bg-transparent border-white/15'
+            : 'bg-white border-line'
+        } ${
+          scrolled && !transparent
+            ? 'shadow-[0_8px_24px_-14px_rgba(20,24,31,0.35)]'
+            : ''
         }`}
       >
         <div className='max-w-[1240px] mx-auto px-4 sm:px-8 flex items-center justify-between h-[72px] gap-4'>
@@ -145,7 +163,9 @@ export default function Header() {
               height={322}
               priority
               quality={100}
-              className='h-[44px] w-auto transition-transform duration-300 hover:scale-[1.03]'
+              className={`h-[44px] w-auto transition-[transform,filter] duration-300 hover:scale-[1.03] ${
+                transparent ? 'brightness-0 invert' : ''
+              }`}
             />
           </Link>
 
@@ -160,10 +180,18 @@ export default function Header() {
                   <li key={item.href} className='h-full'>
                     <Link
                       href={item.href}
-                      className={`relative h-full flex items-center text-[14px] font-semibold transition-colors hover:text-forest after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:bg-forest after:origin-left after:transition-transform after:duration-300 ${
-                        active
-                          ? 'text-forest after:scale-x-100'
-                          : 'text-ink after:scale-x-0 hover:after:scale-x-100'
+                      className={`relative h-full flex items-center text-[14px] font-semibold transition-colors after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:origin-left after:transition-transform after:duration-300 ${
+                        transparent
+                          ? `after:bg-white hover:text-white ${
+                              active
+                                ? 'text-white after:scale-x-100'
+                                : 'text-white/85 after:scale-x-0 hover:after:scale-x-100'
+                            }`
+                          : `after:bg-forest hover:text-forest ${
+                              active
+                                ? 'text-forest after:scale-x-100'
+                                : 'text-ink after:scale-x-0 hover:after:scale-x-100'
+                            }`
                       }`}
                     >
                       {item.label}
@@ -180,19 +208,23 @@ export default function Header() {
               type='button'
               aria-label='Search products'
               onClick={() => setSearchOpen(true)}
-              className='hidden lg:flex items-center gap-2.5 w-[240px] h-10 px-3.5 border border-line rounded-md bg-bg-soft text-[13px] text-muted text-left transition-colors hover:border-forest/50'
+              className={`hidden lg:flex items-center gap-2.5 w-[240px] h-10 px-3.5 border rounded-md text-[13px] text-left transition-colors ${
+                transparent
+                  ? 'border-white/30 bg-white/10 text-white/85 hover:border-white/60'
+                  : 'border-line bg-bg-soft text-muted hover:border-forest/50'
+              }`}
             >
               <svg width='16' height='16' viewBox='0 0 24 24' fill='none'>
                 <circle
                   cx='11'
                   cy='11'
                   r='7'
-                  stroke='#5B6470'
+                  stroke='currentColor'
                   strokeWidth='1.8'
                 />
                 <path
                   d='M21 21l-4.3-4.3'
-                  stroke='#5B6470'
+                  stroke='currentColor'
                   strokeWidth='1.8'
                   strokeLinecap='round'
                 />
@@ -205,19 +237,23 @@ export default function Header() {
               type='button'
               aria-label='Search'
               onClick={() => setSearchOpen(true)}
-              className='lg:hidden flex w-10 h-10 shrink-0 rounded-md border border-line items-center justify-center transition-colors hover:border-forest/50'
+              className={`lg:hidden flex w-10 h-10 shrink-0 rounded-md border items-center justify-center transition-colors ${
+                transparent
+                  ? 'border-white/40 text-white hover:border-white'
+                  : 'border-line text-ink hover:border-forest/50'
+              }`}
             >
               <svg width='18' height='18' viewBox='0 0 24 24' fill='none'>
                 <circle
                   cx='11'
                   cy='11'
                   r='7'
-                  stroke='#14181F'
+                  stroke='currentColor'
                   strokeWidth='1.8'
                 />
                 <path
                   d='M21 21l-4.3-4.3'
-                  stroke='#14181F'
+                  stroke='currentColor'
                   strokeWidth='1.8'
                   strokeLinecap='round'
                 />
@@ -226,7 +262,11 @@ export default function Header() {
 
             <Link
               href='/contact'
-              className='hidden sm:inline-flex items-center h-10 bg-forest text-white px-5 rounded-md text-[13px] font-bold transition-colors hover:bg-forest-dark'
+              className={`hidden sm:inline-flex items-center h-10 px-5 rounded-md text-[13px] font-bold transition-colors ${
+                transparent
+                  ? 'bg-white text-forest-dark hover:bg-forest-pale'
+                  : 'bg-forest text-white hover:bg-forest-dark'
+              }`}
             >
               Enquire Now
             </Link>
@@ -236,13 +276,17 @@ export default function Header() {
               aria-label={menuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={menuOpen}
               onClick={() => setMenuOpen((v) => !v)}
-              className='md:hidden flex w-10 h-10 shrink-0 rounded-md border border-line items-center justify-center transition-colors hover:border-forest/50'
+              className={`md:hidden flex w-10 h-10 shrink-0 rounded-md border items-center justify-center transition-colors ${
+                transparent
+                  ? 'border-white/40 text-white hover:border-white'
+                  : 'border-line text-ink hover:border-forest/50'
+              }`}
             >
               {menuOpen ? (
                 <svg width='18' height='18' viewBox='0 0 24 24' fill='none'>
                   <path
                     d='M6 6l12 12M18 6L6 18'
-                    stroke='#14181F'
+                    stroke='currentColor'
                     strokeWidth='1.8'
                     strokeLinecap='round'
                   />
@@ -251,7 +295,7 @@ export default function Header() {
                 <svg width='18' height='18' viewBox='0 0 24 24' fill='none'>
                   <path
                     d='M4 7h16M4 12h16M4 17h16'
-                    stroke='#14181F'
+                    stroke='currentColor'
                     strokeWidth='1.8'
                     strokeLinecap='round'
                   />

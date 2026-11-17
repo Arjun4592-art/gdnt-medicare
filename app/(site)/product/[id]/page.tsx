@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getProductByIdAsync, getRelatedProductsAsync } from '@/lib/data'
-import { getDiscountPercent } from '@/lib/products'
+import { priceUnit } from '@/lib/products'
 import ProductGallery from '@/components/ProductGallery'
 import ProductCard from '@/components/ProductCard'
 import ProductTabs from '@/components/ProductTabs'
@@ -98,7 +98,6 @@ export default async function ProductDetailPage({
   if (!product) notFound()
 
   const related = await getRelatedProductsAsync(product)
-  const discount = getDiscountPercent(product.price, product.mrp)
 
   const specs: [string, string][] = [
     ['Composition', product.salt],
@@ -124,7 +123,7 @@ export default async function ProductDetailPage({
       '@type': 'Offer',
       url: `https://gdntmedicare.com/product/${id}`,
       priceCurrency: 'INR',
-      price: product.price,
+      price: product.mrp,
       availability:
         product.stock === 'In Stock'
           ? 'https://schema.org/InStock'
@@ -249,19 +248,16 @@ export default async function ProductDetailPage({
           >
             <div>
               <div className='mt-1 lg:mt-5 py-5 border-t border-b border-line'>
-                <div className='flex items-center gap-2.5 flex-wrap'>
-                  <div className='text-[28px] font-bold text-navy'>
-                    ₹{product.price}
-                  </div>
-                  {discount > 0 && (
-                    <span className='text-[12px] font-bold text-white bg-forest px-2.5 py-1 rounded'>
-                      {discount}% OFF
-                    </span>
-                  )}
+                <div className='text-[12.5px] font-semibold uppercase tracking-[0.06em] text-muted'>
+                  MRP
                 </div>
-                <div className='text-xs text-muted mt-1'>
-                  MRP <span className='line-through'>₹{product.mrp}</span> ·
-                  Trade price on request
+                <div className='mt-1 flex items-baseline gap-2'>
+                  <span className='text-[30px] font-bold text-navy'>
+                    ₹{product.mrp}
+                  </span>
+                  <span className='text-[15px] text-muted'>
+                    per {priceUnit(product.type)}
+                  </span>
                 </div>
               </div>
 

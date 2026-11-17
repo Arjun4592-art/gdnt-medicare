@@ -35,7 +35,15 @@ html {
 html,
 body {
   max-width: 100%;
+}
+/* Stop sideways scroll WITHOUT turning <body> into a scroll container:
+   overflow-x:hidden on both html and body breaks `position: sticky`
+   (the header would scroll away). `clip` on body keeps sticky working. */
+html {
   overflow-x: hidden;
+}
+body {
+  overflow-x: clip;
 }
 body {
   background: var(--bg);

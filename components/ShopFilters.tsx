@@ -5,15 +5,36 @@ import { useSearchParams } from 'next/navigation'
 import { Product, CATEGORIES } from '@/lib/products'
 import ProductCard from './ProductCard'
 
-const FORMS = ['Tablets', 'Capsules', 'Syrup', 'Ointment']
+const FORMS = [
+  'Tablets',
+  'Capsules',
+  'Syrup',
+  'Injection',
+  'Ointment',
+  'Powder',
+]
+
+// "?form=Tablets,Capsules" -> ['Tablets', 'Capsules']
+const parseList = (v: string | null) =>
+  v
+    ? v
+        .split(',')
+        .map((x) => x.trim())
+        .filter(Boolean)
+    : []
 
 export default function ShopFilters({ products }: { products: Product[] }) {
   const searchParams = useSearchParams()
   const initialQuery = searchParams.get('q') ?? ''
+  // Links from the home page categories: /shop?form=Injection or /shop?cat=Wellness
+  const initialForms = searchParams.get('form') ?? ''
+  const initialCats = searchParams.get('cat') ?? ''
 
-  const [categories, setCategories] = useState<string[]>([])
+  const [categories, setCategories] = useState<string[]>(() =>
+    parseList(initialCats),
+  )
   const [availability, setAvailability] = useState<string[]>([])
-  const [forms, setForms] = useState<string[]>([])
+  const [forms, setForms] = useState<string[]>(() => parseList(initialForms))
   const [sort, setSort] = useState('Featured')
   const [query, setQuery] = useState(initialQuery)
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
@@ -22,6 +43,14 @@ export default function ShopFilters({ products }: { products: Product[] }) {
   useEffect(() => {
     setQuery(initialQuery)
   }, [initialQuery])
+
+  // Same for ?form= and ?cat= (e.g. clicking another category link).
+  useEffect(() => {
+    setForms(parseList(initialForms))
+  }, [initialForms])
+  useEffect(() => {
+    setCategories(parseList(initialCats))
+  }, [initialCats])
 
   // Lock page scroll while the mobile filter drawer is open.
   useEffect(() => {
@@ -63,9 +92,9 @@ export default function ShopFilters({ products }: { products: Product[] }) {
     })
 
     if (sort === 'Price: Low to High')
-      list = [...list].sort((a, b) => a.price - b.price)
+      list = [...list].sort((a, b) => a.mrp - b.mrp)
     if (sort === 'Price: High to Low')
-      list = [...list].sort((a, b) => b.price - a.price)
+      list = [...list].sort((a, b) => b.mrp - a.mrp)
     if (sort === 'Rating') list = [...list].sort((a, b) => b.rating - a.rating)
 
     return list

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Product, getDiscountPercent } from '@/lib/products'
+import { Product, priceUnit } from '@/lib/products'
 import ProductImage from '@/components/ProductImage'
 import Reveal from '@/components/Reveal'
 
@@ -11,7 +11,6 @@ export default function ProductCard({
   /** ms, to stagger cards as they scroll into view */
   delay?: number
 }) {
-  const discount = getDiscountPercent(product.price, product.mrp)
   const lowStock = product.stock === 'Low Stock'
 
   return (
@@ -27,11 +26,6 @@ export default function ProductCard({
             alt={product.name}
             icon={product.icon}
           />
-          {discount > 0 && (
-            <span className='absolute top-0 left-0 bg-forest text-white text-[11px] font-bold px-2.5 py-1'>
-              {discount}% OFF
-            </span>
-          )}
         </Link>
 
         <div className='flex flex-1 flex-col p-4'>
@@ -66,14 +60,17 @@ export default function ProductCard({
 
           <div className='mt-4 pt-4 border-t border-line flex items-end justify-between gap-3'>
             <div className='leading-tight'>
-              <div className='text-[19px] font-bold text-navy'>
-                ₹{product.price}
+              <div className='text-[12px] font-semibold uppercase tracking-[0.06em] text-muted'>
+                MRP
               </div>
-              {discount > 0 && (
-                <div className='mt-0.5 text-[12px] text-muted'>
-                  MRP <span className='line-through'>₹{product.mrp}</span>
-                </div>
-              )}
+              <div className='mt-1 flex items-baseline gap-1.5'>
+                <span className='text-[21px] font-bold text-navy'>
+                  ₹{product.mrp}
+                </span>
+                <span className='text-[13px] text-muted'>
+                  per {priceUnit(product.type)}
+                </span>
+              </div>
             </div>
             <Link
               href={`/product/${product.id}`}

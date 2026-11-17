@@ -39,12 +39,11 @@ const VALUES = [
 ]
 
 const FACTS: [string, string][] = [
-  ['Established', '2014'],
   ['Company', 'GDNT Medicare Pvt. Ltd.'],
   ['Registered office', 'Poothkhas, Rohta Road, Meerut, Uttar Pradesh 250502'],
   ['Business', 'Ethical pharmaceutical trade'],
   ['Supplies to', 'Doctors, clinics, hospitals and medical stores'],
-  ['Range', '80+ formulations'],
+  ['Range', '50+ formulations'],
 ]
 
 const CERTS = [
@@ -149,9 +148,6 @@ export default function AboutPage() {
           >
             <div className='bg-forest-dark text-white px-6 py-4 flex items-center justify-between'>
               <h2 className='text-[18px] font-semibold'>Company at a glance</h2>
-              <span className='text-[12px] uppercase tracking-[0.1em] text-white/70 font-bold'>
-                Since 2014
-              </span>
             </div>
             <dl className='divide-y divide-line'>
               {FACTS.map(([k, v], i) => (

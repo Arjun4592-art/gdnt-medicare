@@ -1,70 +1,409 @@
 [
   {
+    "product": "Acikind-P Tablets",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052905/gdnt-medicare/products/acikind-p-tablets/acikind-p-tablets-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793948981/gdnt-medicare/products/acikind-p-tablets/acikind-p-tablets-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793948984/gdnt-medicare/products/acikind-p-tablets/acikind-p-tablets-3.png"
+    ]
+  },
+  {
+    "product": "Asaira-SP Tablets",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052908/gdnt-medicare/products/asaira-sp-tablets/asaira-sp-tablets-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793948987/gdnt-medicare/products/asaira-sp-tablets/asaira-sp-tablets-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949022/gdnt-medicare/products/asaira-sp-tablets/asaira-sp-tablets-3.png"
+    ]
+  },
+  {
+    "product": "Boncare-D3 Nano Shot",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052910/gdnt-medicare/products/boncare-d3-nano-shot/boncare-d3-nano-shot-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949035/gdnt-medicare/products/boncare-d3-nano-shot/boncare-d3-nano-shot-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793953783/gdnt-medicare/products/boncare-d3-nano-shot/boncare-d3-nano-shot-3.png"
+    ]
+  },
+  {
+    "product": "Calbon-D3 Suspension",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052912/gdnt-medicare/products/calbon-d3-suspension/calbon-d3-suspension-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793953790/gdnt-medicare/products/calbon-d3-suspension/calbon-d3-suspension-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949038/gdnt-medicare/products/calbon-d3-suspension/calbon-d3-suspension-3.png"
+    ]
+  },
+  {
+    "product": "Dicloryn-P Tablets",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052915/gdnt-medicare/products/dicloryn-p-tablets/dicloryn-p-tablets-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949040/gdnt-medicare/products/dicloryn-p-tablets/dicloryn-p-tablets-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793953798/gdnt-medicare/products/dicloryn-p-tablets/dicloryn-p-tablets-3.png"
+    ]
+  },
+  {
+    "product": "Femfit-Pro Protein Powder",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949042/gdnt-medicare/products/femfit-pro-protein-powder/femfit-pro-protein-powder-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949043/gdnt-medicare/products/femfit-pro-protein-powder/femfit-pro-protein-powder-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949043/gdnt-medicare/products/femfit-pro-protein-powder/femfit-pro-protein-powder-3.png"
+    ]
+  },
+  {
+    "product": "Ferrose-XT Suspension",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052919/gdnt-medicare/products/ferrose-xt-suspension/ferrose-xt-suspension-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949045/gdnt-medicare/products/ferrose-xt-suspension/ferrose-xt-suspension-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949046/gdnt-medicare/products/ferrose-xt-suspension/ferrose-xt-suspension-3.png"
+    ]
+  },
+  {
+    "product": "Gasedraft Suspension",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052921/gdnt-medicare/products/gasedraft-suspension/gasedraft-suspension-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793953812/gdnt-medicare/products/gasedraft-suspension/gasedraft-suspension-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949049/gdnt-medicare/products/gasedraft-suspension/gasedraft-suspension-3.png"
+    ]
+  },
+  {
+    "product": "Gdace-MR Tablets",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052924/gdnt-medicare/products/gdace-mr-tablets/gdace-mr-tablets-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949051/gdnt-medicare/products/gdace-mr-tablets/gdace-mr-tablets-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793953819/gdnt-medicare/products/gdace-mr-tablets/gdace-mr-tablets-3.png"
+    ]
+  },
+  {
+    "product": "Gd-Axone 1 Injection",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052927/gdnt-medicare/products/gd-axone-1-injection/gd-axone-1-injection-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949053/gdnt-medicare/products/gd-axone-1-injection/gd-axone-1-injection-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949054/gdnt-medicare/products/gd-axone-1-injection/gd-axone-1-injection-3.png"
+    ]
+  },
+  {
     "product": "GD-Calpro Softgel Capsules",
     "action": "update",
     "urls": [
-      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946509/gdnt-medicare/products/gd-calpro-softgel-capsules/gd-calpro-softgel-capsules-1.png",
-      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946512/gdnt-medicare/products/gd-calpro-softgel-capsules/gd-calpro-softgel-capsules-2.png",
-      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946514/gdnt-medicare/products/gd-calpro-softgel-capsules/gd-calpro-softgel-capsules-3.png"
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052929/gdnt-medicare/products/gd-calpro-softgel-capsules/gd-calpro-softgel-capsules-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949056/gdnt-medicare/products/gd-calpro-softgel-capsules/gd-calpro-softgel-capsules-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949058/gdnt-medicare/products/gd-calpro-softgel-capsules/gd-calpro-softgel-capsules-3.png"
+    ]
+  },
+  {
+    "product": "Gdcefi-200 Tablets",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052932/gdnt-medicare/products/gdcefi-200-tablets/gdcefi-200-tablets-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793953835/gdnt-medicare/products/gdcefi-200-tablets/gdcefi-200-tablets-2.png"
+    ]
+  },
+  {
+    "product": "Gdcefi Kid Dry Syrup",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052934/gdnt-medicare/products/gdcefi-kid-dry-syrup/gdcefi-kid-dry-syrup-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949062/gdnt-medicare/products/gdcefi-kid-dry-syrup/gdcefi-kid-dry-syrup-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949063/gdnt-medicare/products/gdcefi-kid-dry-syrup/gdcefi-kid-dry-syrup-3.png"
+    ]
+  },
+  {
+    "product": "Gdcold-Dops Drops",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052936/gdnt-medicare/products/gdcold-dops-drops/gdcold-dops-drops-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949065/gdnt-medicare/products/gdcold-dops-drops/gdcold-dops-drops-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793953845/gdnt-medicare/products/gdcold-dops-drops/gdcold-dops-drops-3.png"
+    ]
+  },
+  {
+    "product": "Gdcold-PDS Suspension",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052939/gdnt-medicare/products/gdcold-pds-suspension/gdcold-pds-suspension-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949068/gdnt-medicare/products/gdcold-pds-suspension/gdcold-pds-suspension-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949069/gdnt-medicare/products/gdcold-pds-suspension/gdcold-pds-suspension-3.png"
+    ]
+  },
+  {
+    "product": "Gdcough-DX Syrup",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052941/gdnt-medicare/products/gdcough-dx-syrup/gdcough-dx-syrup-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949071/gdnt-medicare/products/gdcough-dx-syrup/gdcough-dx-syrup-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949072/gdnt-medicare/products/gdcough-dx-syrup/gdcough-dx-syrup-3.png"
+    ]
+  },
+  {
+    "product": "Gdcough-LS Syrup",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052944/gdnt-medicare/products/gdcough-ls-syrup/gdcough-ls-syrup-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793953855/gdnt-medicare/products/gdcough-ls-syrup/gdcough-ls-syrup-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949074/gdnt-medicare/products/gdcough-ls-syrup/gdcough-ls-syrup-3.png"
+    ]
+  },
+  {
+    "product": "GD-Electracare Energy Drink Powder",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052946/gdnt-medicare/products/gd-electracare-energy-drink-powder/gd-electracare-energy-drink-powder-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949076/gdnt-medicare/products/gd-electracare-energy-drink-powder/gd-electracare-energy-drink-powder-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793953865/gdnt-medicare/products/gd-electracare-energy-drink-powder/gd-electracare-energy-drink-powder-3.png"
+    ]
+  },
+  {
+    "product": "GD-Floxim Tablets",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052949/gdnt-medicare/products/gd-floxim-tablets/gd-floxim-tablets-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949081/gdnt-medicare/products/gd-floxim-tablets/gd-floxim-tablets-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949083/gdnt-medicare/products/gd-floxim-tablets/gd-floxim-tablets-3.png"
     ]
   },
   {
     "product": "GD-HepZyme Syrup",
     "action": "update",
     "urls": [
-      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946515/gdnt-medicare/products/gd-hepzyme-syrup/gd-hepzyme-syrup-1.png",
-      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946517/gdnt-medicare/products/gd-hepzyme-syrup/gd-hepzyme-syrup-2.png",
-      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946518/gdnt-medicare/products/gd-hepzyme-syrup/gd-hepzyme-syrup-3.png"
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052951/gdnt-medicare/products/gd-hepzyme-syrup/gd-hepzyme-syrup-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793953875/gdnt-medicare/products/gd-hepzyme-syrup/gd-hepzyme-syrup-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949087/gdnt-medicare/products/gd-hepzyme-syrup/gd-hepzyme-syrup-3.png"
     ]
   },
   {
     "product": "GD-Lulicon Cream",
     "action": "update",
     "urls": [
-      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946518/gdnt-medicare/products/gd-lulicon-cream/gd-lulicon-cream-1.png",
-      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946519/gdnt-medicare/products/gd-lulicon-cream/gd-lulicon-cream-2.png",
-      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946519/gdnt-medicare/products/gd-lulicon-cream/gd-lulicon-cream-3.png"
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052954/gdnt-medicare/products/gd-lulicon-cream/gd-lulicon-cream-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793953881/gdnt-medicare/products/gd-lulicon-cream/gd-lulicon-cream-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793953882/gdnt-medicare/products/gd-lulicon-cream/gd-lulicon-cream-3.png"
     ]
   },
   {
     "product": "GD-Mef DR Tablets",
     "action": "update",
     "urls": [
-      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946520/gdnt-medicare/products/gd-mef-dr-tablets/gd-mef-dr-tablets-2.png",
-      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946521/gdnt-medicare/products/gd-mef-dr-tablets/gd-mef-dr-tablets-3.png"
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793953883/gdnt-medicare/products/gd-mef-dr-tablets/gd-mef-dr-tablets-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793953886/gdnt-medicare/products/gd-mef-dr-tablets/gd-mef-dr-tablets-3.png"
     ]
   },
   {
     "product": "GD-Mefec Tablets",
     "action": "update",
     "urls": [
-      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946523/gdnt-medicare/products/gd-mefec-tablets/gd-mefec-tablets-1.png",
-      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946523/gdnt-medicare/products/gd-mefec-tablets/gd-mefec-tablets-2.png",
-      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946524/gdnt-medicare/products/gd-mefec-tablets/gd-mefec-tablets-3.png"
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052959/gdnt-medicare/products/gd-mefec-tablets/gd-mefec-tablets-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949098/gdnt-medicare/products/gd-mefec-tablets/gd-mefec-tablets-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793953890/gdnt-medicare/products/gd-mefec-tablets/gd-mefec-tablets-3.png"
+    ]
+  },
+  {
+    "product": "Gdmef-P Suspension",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052961/gdnt-medicare/products/gdmef-p-suspension/gdmef-p-suspension-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949102/gdnt-medicare/products/gdmef-p-suspension/gdmef-p-suspension-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949104/gdnt-medicare/products/gdmef-p-suspension/gdmef-p-suspension-3.png"
     ]
   },
   {
     "product": "Gdmika-500 Injection",
     "action": "update",
     "urls": [
-      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946561/gdnt-medicare/products/gdmika-500-injection/gdmika-500-injection-2.png",
-      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946565/gdnt-medicare/products/gdmika-500-injection/gdmika-500-injection-3.png"
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949105/gdnt-medicare/products/gdmika-500-injection/gdmika-500-injection-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949106/gdnt-medicare/products/gdmika-500-injection/gdmika-500-injection-3.png"
+    ]
+  },
+  {
+    "product": "Gdmol-650 Tablets",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052964/gdnt-medicare/products/gdmol-650-tablets/gdmol-650-tablets-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793953899/gdnt-medicare/products/gdmol-650-tablets/gdmol-650-tablets-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793953901/gdnt-medicare/products/gdmol-650-tablets/gdmol-650-tablets-3.png"
+    ]
+  },
+  {
+    "product": "GDMOX-CV 625 Tablets",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052966/gdnt-medicare/products/gdmox-cv-625-tablets/gdmox-cv-625-tablets-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949113/gdnt-medicare/products/gdmox-cv-625-tablets/gdmox-cv-625-tablets-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949116/gdnt-medicare/products/gdmox-cv-625-tablets/gdmox-cv-625-tablets-3.png"
+    ]
+  },
+  {
+    "product": "GD-Painmint Gel",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052969/gdnt-medicare/products/gd-painmint-gel/gd-painmint-gel-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793953913/gdnt-medicare/products/gd-painmint-gel/gd-painmint-gel-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949119/gdnt-medicare/products/gd-painmint-gel/gd-painmint-gel-3.png"
     ]
   },
   {
     "product": "Gdset-4 Tablets",
     "action": "update",
     "urls": [
-      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946601/gdnt-medicare/products/gdset-4-tablets/gdset-4-tablets-1.png",
-      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946606/gdnt-medicare/products/gdset-4-tablets/gdset-4-tablets-2.png"
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052971/gdnt-medicare/products/gdset-4-tablets/gdset-4-tablets-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793953919/gdnt-medicare/products/gdset-4-tablets/gdset-4-tablets-2.png"
+    ]
+  },
+  {
+    "product": "Gdset-IV Injection",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052972/gdnt-medicare/products/gdset-iv-injection/gdset-iv-injection-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949123/gdnt-medicare/products/gdset-iv-injection/gdset-iv-injection-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949124/gdnt-medicare/products/gdset-iv-injection/gdset-iv-injection-3.png"
     ]
   },
   {
     "product": "GD-Vitacore Tablets",
     "action": "update",
     "urls": [
-      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946609/gdnt-medicare/products/gd-vitacore-tablets/gd-vitacore-tablets-1.png",
-      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793946610/gdnt-medicare/products/gd-vitacore-tablets/gd-vitacore-tablets-3.png"
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052974/gdnt-medicare/products/gd-vitacore-tablets/gd-vitacore-tablets-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949128/gdnt-medicare/products/gd-vitacore-tablets/gd-vitacore-tablets-3.png"
+    ]
+  },
+  {
+    "product": "Gedflox-MS Suspension",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052976/gdnt-medicare/products/gedflox-ms-suspension/gedflox-ms-suspension-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949130/gdnt-medicare/products/gedflox-ms-suspension/gedflox-ms-suspension-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949131/gdnt-medicare/products/gedflox-ms-suspension/gedflox-ms-suspension-3.png"
+    ]
+  },
+  {
+    "product": "Gedozyme Syrup",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052979/gdnt-medicare/products/gedozyme-syrup/gedozyme-syrup-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949133/gdnt-medicare/products/gedozyme-syrup/gedozyme-syrup-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949133/gdnt-medicare/products/gedozyme-syrup/gedozyme-syrup-3.png"
+    ]
+  },
+  {
+    "product": "Gestrokind Suspension",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793953951/gdnt-medicare/products/gestrokind-suspension/gestrokind-suspension-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949135/gdnt-medicare/products/gestrokind-suspension/gestrokind-suspension-3.png"
+    ]
+  },
+  {
+    "product": "Gsartan-40 Tablets",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052983/gdnt-medicare/products/gsartan-40-tablets/gsartan-40-tablets-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949137/gdnt-medicare/products/gsartan-40-tablets/gsartan-40-tablets-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793953961/gdnt-medicare/products/gsartan-40-tablets/gsartan-40-tablets-3.png"
+    ]
+  },
+  {
+    "product": "Healthvit Syrup",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949140/gdnt-medicare/products/healthvit-syrup/healthvit-syrup-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949141/gdnt-medicare/products/healthvit-syrup/healthvit-syrup-2.png"
+    ]
+  },
+  {
+    "product": "Hungrycip Syrup",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052987/gdnt-medicare/products/hungrycip-syrup/hungrycip-syrup-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949143/gdnt-medicare/products/hungrycip-syrup/hungrycip-syrup-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949144/gdnt-medicare/products/hungrycip-syrup/hungrycip-syrup-3.png"
+    ]
+  },
+  {
+    "product": "Lemonte-M Tablets",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052990/gdnt-medicare/products/lemonte-m-tablets/lemonte-m-tablets-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949146/gdnt-medicare/products/lemonte-m-tablets/lemonte-m-tablets-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793953984/gdnt-medicare/products/lemonte-m-tablets/lemonte-m-tablets-3.png"
+    ]
+  },
+  {
+    "product": "Livocet-5 Tablets",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052992/gdnt-medicare/products/livocet-5-tablets/livocet-5-tablets-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949149/gdnt-medicare/products/livocet-5-tablets/livocet-5-tablets-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793953996/gdnt-medicare/products/livocet-5-tablets/livocet-5-tablets-3.png"
+    ]
+  },
+  {
+    "product": "Meglocid Suspension",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949150/gdnt-medicare/products/meglocid-suspension/meglocid-suspension-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949151/gdnt-medicare/products/meglocid-suspension/meglocid-suspension-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949152/gdnt-medicare/products/meglocid-suspension/meglocid-suspension-3.png"
+    ]
+  },
+  {
+    "product": "Metglyva-2 Tablets",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794052997/gdnt-medicare/products/metglyva-2-tablets/metglyva-2-tablets-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949153/gdnt-medicare/products/metglyva-2-tablets/metglyva-2-tablets-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949154/gdnt-medicare/products/metglyva-2-tablets/metglyva-2-tablets-3.png"
+    ]
+  },
+  {
+    "product": "Montakind-L Syrup",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794053000/gdnt-medicare/products/montakind-l-syrup/montakind-l-syrup-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949156/gdnt-medicare/products/montakind-l-syrup/montakind-l-syrup-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949157/gdnt-medicare/products/montakind-l-syrup/montakind-l-syrup-3.png"
+    ]
+  },
+  {
+    "product": "Nimoflex-P Tablets",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794053002/gdnt-medicare/products/nimoflex-p-tablets/nimoflex-p-tablets-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949158/gdnt-medicare/products/nimoflex-p-tablets/nimoflex-p-tablets-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949159/gdnt-medicare/products/nimoflex-p-tablets/nimoflex-p-tablets-3.png"
+    ]
+  },
+  {
+    "product": "Pantadoz-DSR Capsules",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794053004/gdnt-medicare/products/pantadoz-dsr-capsules/pantadoz-dsr-capsules-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949161/gdnt-medicare/products/pantadoz-dsr-capsules/pantadoz-dsr-capsules-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949162/gdnt-medicare/products/pantadoz-dsr-capsules/pantadoz-dsr-capsules-3.png"
+    ]
+  },
+  {
+    "product": "Pantopain-40 Injection",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794053006/gdnt-medicare/products/pantopain-40-injection/pantopain-40-injection-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949164/gdnt-medicare/products/pantopain-40-injection/pantopain-40-injection-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949164/gdnt-medicare/products/pantopain-40-injection/pantopain-40-injection-3.png"
+    ]
+  },
+  {
+    "product": "Rabigo-DSR Capsules",
+    "action": "update",
+    "urls": [
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1794053008/gdnt-medicare/products/rabigo-dsr-capsules/rabigo-dsr-capsules-1.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793949170/gdnt-medicare/products/rabigo-dsr-capsules/rabigo-dsr-capsules-2.png",
+      "https://res.cloudinary.com/qsnmycmc/image/upload/f_auto,q_auto/v1793954017/gdnt-medicare/products/rabigo-dsr-capsules/rabigo-dsr-capsules-3.png"
     ]
   }
 ]
