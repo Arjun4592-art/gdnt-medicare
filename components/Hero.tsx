@@ -254,14 +254,12 @@ export default function Hero({
               width: 'calc(100% + 24px)',
               maxWidth: 'none',
             }}
-            aria-label='Genuine medicines, supplied directly to trusted retailers.'
+            aria-label='Your reliable partner for genuine pharma supply.'
           >
             <BlurText
               as='span'
               className='justify-center'
-              text={
-                'Genuine medicines,\nsupplied directly to\ntrusted retailers.'
-              }
+              text={'Your reliable partner\nfor genuine pharma supply.'}
               delay={110}
               animateBy='words'
               direction='top'
