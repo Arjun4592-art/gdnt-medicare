@@ -24,14 +24,13 @@ export interface Product {
 
 // Discount % off MRP, derived from price vs mrp (rounded down). Returns 0 if no real discount.
 /**
- * The price we store is for ONE unit, not the whole carton/box.
- * Tablets and capsules are sold per strip; other forms per bottle / unit.
+ * The price we store is for ONE unit, not the whole carton.
+ * Tablets and capsules are sold per strip; everything else (syrup, ointment, etc.) per box.
  */
 export function priceUnit(type: string): string {
   const t = type.toLowerCase()
   if (t === 'tablets' || t === 'capsules') return 'strip'
-  if (t === 'syrup') return 'bottle'
-  return 'unit'
+  return 'box'
 }
 
 export function getDiscountPercent(price: number, mrp: number): number {
