@@ -1,10 +1,25 @@
 'use client'
 
+/**
+ * Hero section: full-bleed looping video background + ReactBits "BlurText" heading.
+ *
+ * One-time setup (BlurText from reactbits.dev needs the `motion` package):
+ *     npm install motion
+ *
+ * Video file:  /public/hero-video.mp4   (already in your project)
+ */
+
 import Link from 'next/link'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
 import type { Transition } from 'motion/react'
 import CertLogo from '@/components/CertLogo'
+
+/* ------------------------------------------------------------------ */
+/*  ReactBits — BlurText (TS + Tailwind version)                       */
+/*  https://reactbits.dev/text-animations/blur-text                    */
+/*  Only change: `as` prop, so it can render as <span> inside an <h1>. */
+/* ------------------------------------------------------------------ */
 
 type BlurKeyframe = Record<string, string | number>
 
@@ -177,26 +192,10 @@ export default function Hero({
 }: {
   certs: { key: string; src: string; name: string }[]
 }) {
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const [playing, setPlaying] = useState(true)
-
-  const toggle = () => {
-    const v = videoRef.current
-    if (!v) return
-    if (v.paused) {
-      v.play().catch(() => {})
-      setPlaying(true)
-    } else {
-      v.pause()
-      setPlaying(false)
-    }
-  }
-
   return (
     <section className='relative isolate overflow-hidden bg-navy'>
       {/* Background video (hidden for reduced-motion users → plain navy) */}
       <video
-        ref={videoRef}
         className='absolute inset-0 -z-30 h-full w-full object-cover motion-reduce:hidden'
         autoPlay
         muted
@@ -224,6 +223,11 @@ export default function Hero({
         className={`${wrap} flex min-h-[640px] lg:min-h-[max(680px,calc(100svh_-_36px))] flex-col items-center justify-center pt-[calc(2rem+72px)] pb-12 sm:pt-[calc(3rem+72px)] sm:pb-14 lg:pt-[calc(2rem+72px)] lg:pb-16 text-center`}
       >
         <div className='max-w-[900px] flex flex-col items-center'>
+          {/* company name */}
+          <div className='animate-rise mb-4 sm:mb-5 text-[15px] sm:text-[19px] font-bold uppercase tracking-[0.16em] sm:tracking-[0.2em] text-white [text-shadow:0_2px_20px_rgba(6,16,32,0.6)]'>
+            GDNT Medicare Pvt. Ltd.
+          </div>
+
           {/* eyebrow chip */}
           <div className='animate-rise inline-flex max-w-full items-center gap-2 sm:gap-2.5 whitespace-nowrap rounded-full border border-white/25 bg-white/10 px-3.5 sm:px-4 py-1.5 text-[10.5px] sm:text-[12px] font-bold uppercase tracking-[0.08em] sm:tracking-[0.12em] text-white backdrop-blur-sm'>
             <span className='h-1.5 w-1.5 rounded-full bg-[#4ade9c]' />
@@ -303,27 +307,6 @@ export default function Hero({
           </div>
         </div>
       </div>
-
-      {/* Pause / play */}
-      <button
-        type='button'
-        onClick={toggle}
-        aria-label={
-          playing ? 'Pause background video' : 'Play background video'
-        }
-        className='absolute z-10 bottom-4 right-4 w-10 h-10 rounded-full bg-white/90 hover:bg-white text-navy flex items-center justify-center shadow-sm transition-colors motion-reduce:hidden'
-      >
-        {playing ? (
-          <svg width='12' height='12' viewBox='0 0 12 12' fill='currentColor'>
-            <rect x='2' y='1.5' width='2.8' height='9' rx='0.8' />
-            <rect x='7.2' y='1.5' width='2.8' height='9' rx='0.8' />
-          </svg>
-        ) : (
-          <svg width='12' height='12' viewBox='0 0 12 12' fill='currentColor'>
-            <path d='M3 1.8v8.4a.6.6 0 00.9.5l6.6-4.2a.6.6 0 000-1L3.9 1.3a.6.6 0 00-.9.5z' />
-          </svg>
-        )}
-      </button>
     </section>
   )
 }
