@@ -224,8 +224,8 @@ export default function Hero({
       >
         <div className='max-w-[900px] flex flex-col items-center'>
           {/* company name */}
-          <div className='animate-rise mb-4 sm:mb-5 text-[15px] sm:text-[19px] font-bold uppercase tracking-[0.16em] sm:tracking-[0.2em] text-white [text-shadow:0_2px_20px_rgba(6,16,32,0.6)]'>
-            GDNT Medicare Pvt. Ltd.
+          <div className='animate-rise mb-4 sm:mb-5 text-[24px] sm:text-[32px] lg:text-[38px] font-bold uppercase leading-none tracking-[0.12em] sm:tracking-[0.16em] text-white [text-shadow:0_2px_20px_rgba(6,16,32,0.6)]'>
+            GDNT Medicare
           </div>
 
           {/* eyebrow chip */}
