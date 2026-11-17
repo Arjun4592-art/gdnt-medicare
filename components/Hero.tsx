@@ -1,25 +1,10 @@
 'use client'
 
-/**
- * Hero section: full-bleed looping video background + ReactBits "BlurText" heading.
- *
- * One-time setup (BlurText from reactbits.dev needs the `motion` package):
- *     npm install motion
- *
- * Video file:  /public/hero-video.mp4   (already in your project)
- */
-
 import Link from 'next/link'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
 import type { Transition } from 'motion/react'
 import CertLogo from '@/components/CertLogo'
-
-/* ------------------------------------------------------------------ */
-/*  ReactBits — BlurText (TS + Tailwind version)                       */
-/*  https://reactbits.dev/text-animations/blur-text                    */
-/*  Only change: `as` prop, so it can render as <span> inside an <h1>. */
-/* ------------------------------------------------------------------ */
 
 type BlurKeyframe = Record<string, string | number>
 
@@ -254,18 +239,22 @@ export default function Hero({
               width: 'calc(100% + 24px)',
               maxWidth: 'none',
             }}
-            aria-label='Your reliable partner for genuine pharma supply.'
+            aria-label='Your Trusted Partner in Quality Healthcare.'
           >
             <BlurText
               as='span'
               className='justify-center'
-              text={'Your reliable partner\nfor genuine pharma supply.'}
+              text={'Your Trusted Partner\nin Quality Healthcare.'}
               delay={110}
               animateBy='words'
               direction='top'
               stepDuration={0.4}
             />
           </h1>
+
+          <div className='animate-rise [animation-delay:600ms] mt-4 sm:mt-5 text-[11.5px] sm:text-[13px] font-bold uppercase tracking-[0.2em] text-white/90 [text-shadow:0_1px_14px_rgba(6,16,32,0.6)]'>
+            Quality &middot; Trust &middot; Commitment
+          </div>
 
           <p
             className='animate-rise [animation-delay:700ms] mt-5 sm:mt-6 text-white/90 leading-relaxed max-w-[640px] text-balance [text-shadow:0_1px_14px_rgba(6,16,32,0.6)]'
