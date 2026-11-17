@@ -276,7 +276,7 @@ export default async function Home() {
           <SectionHead
             label='Product categories'
             title='Browse by dosage form'
-            text='Five ranges covering the everyday needs of clinics, hospitals and retail pharmacies.'
+            text='Wide ranges covering the everyday needs of clinics, hospitals, retailers and pharmacies.'
             link={{ href: '/shop', text: 'View full catalog' }}
           />
           {/* Phones + tablets: swipeable row of cards. Desktop: 5-column grid. */}
