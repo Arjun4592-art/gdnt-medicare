@@ -154,7 +154,7 @@ export default function Header() {
             : ''
         }`}
       >
-        <div className='max-w-[1240px] mx-auto px-4 sm:px-8 flex items-center justify-between h-[72px] gap-4'>
+        <div className='max-w-[1240px] mx-auto px-4 sm:px-8 flex md:grid md:grid-cols-[1fr_auto_1fr] items-center justify-between h-[72px] gap-4'>
           <Link href='/' className='flex items-center shrink-0'>
             <Image
               src='/logo.png'
@@ -180,7 +180,7 @@ export default function Header() {
                   <li key={item.href} className='h-full'>
                     <Link
                       href={item.href}
-                      className={`relative h-full flex items-center text-[14px] font-semibold transition-colors after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:origin-left after:transition-transform after:duration-300 ${
+                      className={`relative h-full flex items-center text-[14px] font-semibold transition-colors after:absolute after:inset-x-0 after:bottom-5 after:h-0.5 after:origin-left after:transition-transform after:duration-300 ${
                         transparent
                           ? `after:bg-white hover:text-white ${
                               active
@@ -202,7 +202,7 @@ export default function Header() {
             </ul>
           </nav>
 
-          <div className='flex items-center gap-2 sm:gap-3'>
+          <div className='flex items-center gap-2 sm:gap-3 md:justify-self-end'>
             {/* Desktop: a real search field look, like a pharmacy site */}
             <button
               type='button'
