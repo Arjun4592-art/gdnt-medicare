@@ -193,7 +193,10 @@ export default function Hero({
   certs: { key: string; src: string; name: string }[]
 }) {
   return (
-    <section className='relative isolate overflow-hidden bg-navy'>
+    <section
+      data-hero
+      className='relative isolate overflow-hidden bg-navy -mt-[73px]'
+    >
       {/* Background video (hidden for reduced-motion users → plain navy) */}
       <video
         className='absolute inset-0 -z-30 h-full w-full object-cover motion-reduce:hidden'

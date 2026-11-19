@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { Suspense } from 'react'
 import { getProducts } from '@/lib/data'
+import { getCategories } from '@/lib/actions/categories'
 import ShopFilters from '@/components/ShopFilters'
 import Reveal from '@/components/Reveal'
 import type { Metadata } from 'next'
@@ -24,7 +25,8 @@ export const metadata: Metadata = {
 const wrap = 'max-w-[1240px] mx-auto px-5 sm:px-8'
 
 export default async function ShopPage() {
-  const products = await getProducts()
+  const [products, cats] = await Promise.all([getProducts(), getCategories()])
+  const categoryNames = cats.categories.map((c) => c.name)
   return (
     <>
       <div className='border-b border-line bg-bg-soft'>
@@ -61,7 +63,7 @@ export default async function ShopPage() {
           </div>
         ) : (
           <Suspense fallback={null}>
-            <ShopFilters products={products} />
+            <ShopFilters products={products} categoryNames={categoryNames} />
           </Suspense>
         )}
       </section>

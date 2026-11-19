@@ -23,6 +23,8 @@ export default function Header() {
   const [mounted, setMounted] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [pastTop, setPastTop] = useState(false)
+  // true while the page on screen actually contains the home hero (<section data-hero>)
+  const [heroPresent, setHeroPresent] = useState(true)
   const searchInputRef = useRef<HTMLInputElement>(null)
 
   // Needed before using a portal, since document.body isn't available during SSR.
@@ -41,6 +43,18 @@ export default function Header() {
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  // The transparent-over-hero look is only for a page that really has the hero.
+  // Checking the DOM (instead of trusting the URL alone) means the navbar can
+  // never end up see-through on pages like /shop.
+  useEffect(() => {
+    const check = () => setHeroPresent(!!document.querySelector('[data-hero]'))
+    check()
+    const target = document.querySelector('main') ?? document.body
+    const observer = new MutationObserver(check)
+    observer.observe(target, { childList: true, subtree: true })
+    return () => observer.disconnect()
+  }, [pathname])
 
   // Close the mobile menu / search whenever the route changes.
   useEffect(() => {
@@ -86,7 +100,7 @@ export default function Header() {
 
   const isHome = pathname === '/'
   // Transparent only on the home page, at the very top, with no menu open.
-  const transparent = isHome && !pastTop && !menuOpen
+  const transparent = isHome && heroPresent && !pastTop && !menuOpen
 
   return (
     <>
@@ -143,8 +157,6 @@ export default function Header() {
 
       <header
         className={`sticky top-0 z-100 border-b transition-[background-color,border-color,box-shadow] duration-300 ${
-          isHome ? '-mb-[73px]' : ''
-        } ${
           transparent
             ? 'bg-transparent border-white/15'
             : 'bg-white border-line'
