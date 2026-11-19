@@ -2,17 +2,34 @@
 
 import { useState, FormEvent, useEffect, useRef } from 'react'
 import Image from 'next/image'
-import { Product } from '@/lib/products'
+import { Product, priceUnit, FORMS } from '@/lib/products'
 import { addProduct, updateProduct } from '@/lib/actions/products'
+import { addCategory } from '@/lib/actions/categories'
 import { createClient } from '@/lib/supabase/client'
+import {
+  DEFAULT_RESIZE,
+  MAX_CUSTOM_SIZE,
+  MIN_CUSTOM_SIZE,
+  SIZE_PRESETS,
+  formatBytes,
+  resizeImage,
+  type ResizeFormat,
+  type ResizeOptions,
+} from '@/lib/image-resize'
 
 interface Props {
   onCancel: () => void
   onSaved: () => void
   editingProduct?: Product | null
+  /** category names to offer in the dropdown */
+  categories?: string[]
+  /** false until the `categories` table exists — falls back to free text */
+  categoriesReady?: boolean
+  onCategoriesChanged?: () => void | Promise<void>
 }
 
-const TYPES = ['Tablets', 'Capsules', 'Syrup', 'Ointment']
+const NEW_CATEGORY = '__new__'
+
 const MAX_IMAGES = 4
 
 const TABS = [
@@ -28,6 +45,9 @@ export default function ProductFormPage({
   onCancel,
   onSaved,
   editingProduct,
+  categories = [],
+  categoriesReady = true,
+  onCategoriesChanged,
 }: Props) {
   const [activeTab, setActiveTab] = useState<TabId>('details')
   const [loading, setLoading] = useState(false)
@@ -55,6 +75,19 @@ export default function ProductFormPage({
   const [uploading, setUploading] = useState(false)
   const [imageError, setImageError] = useState('')
 
+  // image resize settings + last result summary
+  const [resizeOn, setResizeOn] = useState(true)
+  const [resizeOpts, setResizeOpts] = useState<ResizeOptions>(DEFAULT_RESIZE)
+  const [resizeNote, setResizeNote] = useState('')
+  const [customMode, setCustomMode] = useState(false)
+  const [customSize, setCustomSize] = useState('1000')
+
+  // inline "add new category"
+  const [addingCategory, setAddingCategory] = useState(false)
+  const [newCategory, setNewCategory] = useState('')
+  const [categoryBusy, setCategoryBusy] = useState(false)
+  const [categoryError, setCategoryError] = useState('')
+
   useEffect(() => {
     if (editingProduct) {
       setForm({
@@ -68,8 +101,8 @@ export default function ProductFormPage({
         safety_info: editingProduct.safetyInfo,
         price: String(editingProduct.price),
         mrp: String(editingProduct.mrp),
-        stock_quantity: editingProduct.stock === 'In Stock' ? '50' : '5',
-        reorder_level: '15',
+        stock_quantity: String(editingProduct.stockQty),
+        reorder_level: String(editingProduct.reorderLevel),
         meta_title: editingProduct.metaTitle || '',
         meta_description: editingProduct.metaDescription || '',
       })
@@ -95,6 +128,10 @@ export default function ProductFormPage({
     }
     setError('')
     setImageError('')
+    setResizeNote('')
+    setAddingCategory(false)
+    setNewCategory('')
+    setCategoryError('')
     setActiveTab('details')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editingProduct])
@@ -115,18 +152,40 @@ export default function ProductFormPage({
       setImageError('Only image files are allowed.')
       return
     }
-    const tooBig = picked.find((f) => f.size > 5 * 1024 * 1024)
+    // Raw originals can be big when we are going to shrink them anyway.
+    const limit = resizeOn ? 25 * 1024 * 1024 : 5 * 1024 * 1024
+    const tooBig = picked.find((f) => f.size > limit)
     if (tooBig) {
-      setImageError('Each image must be under 5MB.')
+      setImageError(
+        resizeOn
+          ? 'Each image must be under 25MB.'
+          : 'Each image must be under 5MB — turn on “Resize before upload” to shrink it automatically.',
+      )
       return
     }
 
     setUploading(true)
+    setResizeNote('')
     try {
       const supabase = createClient()
       const uploadedUrls: string[] = []
+      let before = 0
+      let after = 0
 
-      for (const file of picked) {
+      for (const original of picked) {
+        let file = original
+        if (resizeOn) {
+          const res = await resizeImage(original, resizeOpts)
+          file = res.file
+          before += res.originalBytes
+          after += res.newBytes
+        }
+        if (file.size > 5 * 1024 * 1024) {
+          throw new Error(
+            `“${original.name}” is still over 5MB after resizing. Pick a smaller size or lower quality.`,
+          )
+        }
+
         const ext = file.name.split('.').pop()
         const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`
         const { error: uploadError } = await supabase.storage
@@ -142,6 +201,12 @@ export default function ProductFormPage({
       }
 
       setImages((prev) => [...prev, ...uploadedUrls])
+      if (resizeOn && before > 0) {
+        const saved = Math.max(0, Math.round((1 - after / before) * 100))
+        setResizeNote(
+          `Resized ${uploadedUrls.length} image${uploadedUrls.length === 1 ? '' : 's'}: ${formatBytes(before)} → ${formatBytes(after)}${saved > 0 ? ` (${saved}% smaller)` : ''}`,
+        )
+      }
     } catch (err) {
       setImageError(
         err instanceof Error
@@ -151,6 +216,26 @@ export default function ProductFormPage({
     } finally {
       setUploading(false)
       if (fileInputRef.current) fileInputRef.current.value = ''
+    }
+  }
+
+  async function handleAddCategory() {
+    setCategoryBusy(true)
+    setCategoryError('')
+    try {
+      const res = await addCategory(newCategory)
+      if (!res.ok) {
+        setCategoryError(res.error)
+        return
+      }
+      setForm((f) => ({ ...f, category: res.category.name }))
+      setAddingCategory(false)
+      setNewCategory('')
+      await onCategoriesChanged?.()
+    } catch {
+      setCategoryError('Could not add the category. Please try again.')
+    } finally {
+      setCategoryBusy(false)
     }
   }
 
@@ -164,7 +249,7 @@ export default function ProductFormPage({
     details:
       !form.name || !form.category || !form.pack_size || !form.composition,
     media: false,
-    pricing: !form.price || !form.mrp || !form.stock_quantity,
+    pricing: !form.mrp || !(parseFloat(form.mrp) > 0) || !form.stock_quantity,
     seo: false,
   }
 
@@ -192,7 +277,8 @@ export default function ProductFormPage({
         description: form.description || null,
         usage_dosage: form.usage_dosage || null,
         safety_info: form.safety_info || null,
-        price: parseFloat(form.price),
+        // The dashboard only asks for MRP; the legacy `price` column is kept equal to it.
+        price: parseFloat(form.mrp),
         mrp: parseFloat(form.mrp),
         stock_quantity: parseInt(form.stock_quantity) || 0,
         reorder_level: parseInt(form.reorder_level) || 15,
@@ -237,7 +323,7 @@ export default function ProductFormPage({
             strokeLinejoin='round'
           />
         </svg>
-        Back to Products
+        Back to products
       </button>
 
       <div className='mb-6'>
@@ -298,15 +384,86 @@ export default function ProductFormPage({
 
                 <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
                   <Field label='Category' required>
-                    <input
-                      required
-                      value={form.category}
-                      onChange={(e) =>
-                        setForm({ ...form, category: e.target.value })
-                      }
-                      className='input'
-                      placeholder='e.g. Cardiac Care'
-                    />
+                    {categoriesReady ? (
+                      <>
+                        <select
+                          required
+                          value={addingCategory ? NEW_CATEGORY : form.category}
+                          onChange={(e) => {
+                            if (e.target.value === NEW_CATEGORY) {
+                              setAddingCategory(true)
+                              setCategoryError('')
+                            } else {
+                              setAddingCategory(false)
+                              setForm({ ...form, category: e.target.value })
+                            }
+                          }}
+                          className='input'
+                        >
+                          <option value='' disabled>
+                            Select a category
+                          </option>
+                          {Array.from(
+                            new Set(
+                              form.category &&
+                                !categories.includes(form.category)
+                                ? [...categories, form.category]
+                                : categories,
+                            ),
+                          ).map((c) => (
+                            <option key={c} value={c}>
+                              {c}
+                            </option>
+                          ))}
+                          <option value={NEW_CATEGORY}>
+                            ＋ Add new category…
+                          </option>
+                        </select>
+                        {addingCategory && (
+                          <div className='mt-2.5 flex gap-2'>
+                            <input
+                              autoFocus
+                              value={newCategory}
+                              maxLength={60}
+                              onChange={(e) => setNewCategory(e.target.value)}
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                  e.preventDefault()
+                                  if (newCategory.trim()) handleAddCategory()
+                                }
+                              }}
+                              placeholder='New category name'
+                              className='input'
+                            />
+                            <button
+                              type='button'
+                              onClick={handleAddCategory}
+                              disabled={
+                                categoryBusy || newCategory.trim() === ''
+                              }
+                              className='shrink-0 bg-forest text-white px-4 rounded-lg text-[13px] font-bold disabled:opacity-50'
+                            >
+                              {categoryBusy ? 'Adding…' : 'Add'}
+                            </button>
+                          </div>
+                        )}
+                        {categoryError && (
+                          <p className='text-[#C0392B] text-[12px] font-semibold mt-1.5'>
+                            {categoryError}
+                          </p>
+                        )}
+                      </>
+                    ) : (
+                      <input
+                        required
+                        value={form.category}
+                        onChange={(e) =>
+                          setForm({ ...form, category: e.target.value })
+                        }
+                        className='input'
+                        placeholder='e.g. Cardiac Care'
+                      />
+                    )}
                   </Field>
                   <Field label='Form' required>
                     <select
@@ -316,7 +473,7 @@ export default function ProductFormPage({
                       }
                       className='input'
                     >
-                      {TYPES.map((t) => (
+                      {FORMS.map((t) => (
                         <option key={t} value={t}>
                           {t}
                         </option>
@@ -389,6 +546,185 @@ export default function ProductFormPage({
 
             {activeTab === 'media' && (
               <Field label={`Product Images (up to ${MAX_IMAGES})`}>
+                {/* Image resize settings */}
+                <div className='mb-4 rounded-xl border border-line bg-bg-soft/70 p-4'>
+                  <label className='flex items-start gap-3 cursor-pointer'>
+                    <input
+                      type='checkbox'
+                      checked={resizeOn}
+                      onChange={(e) => setResizeOn(e.target.checked)}
+                      className='mt-0.5 w-4 h-4 accent-[#0F6E4E]'
+                    />
+                    <span>
+                      <span className='block text-[13px] font-bold text-navy'>
+                        Resize before upload
+                      </span>
+                      <span className='block text-[11.5px] text-muted mt-0.5'>
+                        Shrinks big photos in your browser first — faster
+                        uploads and a faster website. Never enlarges small
+                        images.
+                      </span>
+                    </span>
+                  </label>
+
+                  {resizeOn && (
+                    <div className='mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3.5'>
+                      <div>
+                        <label className='block text-[11.5px] font-bold text-navy mb-1.5'>
+                          Longest side
+                        </label>
+                        <select
+                          value={
+                            customMode
+                              ? 'custom'
+                              : (resizeOpts.maxSize ?? 'original')
+                          }
+                          onChange={(e) => {
+                            const v = e.target.value
+                            if (v === 'custom') {
+                              setCustomMode(true)
+                              setResizeOpts({
+                                ...resizeOpts,
+                                maxSize: Number(customSize) || 1000,
+                              })
+                            } else {
+                              setCustomMode(false)
+                              setResizeOpts({
+                                ...resizeOpts,
+                                maxSize: v === 'original' ? null : Number(v),
+                              })
+                            }
+                          }}
+                          className='input'
+                        >
+                          {SIZE_PRESETS.map((o) => (
+                            <option key={o.label} value={o.value ?? 'original'}>
+                              {o.label}
+                            </option>
+                          ))}
+                          <option value='custom'>Custom size…</option>
+                        </select>
+                        {customMode && (
+                          <div className='mt-2'>
+                            <div className='flex items-center gap-2'>
+                              <input
+                                type='number'
+                                min={MIN_CUSTOM_SIZE}
+                                max={MAX_CUSTOM_SIZE}
+                                step={50}
+                                value={customSize}
+                                onChange={(e) => {
+                                  setCustomSize(e.target.value)
+                                  const n = Number(e.target.value)
+                                  if (
+                                    n >= MIN_CUSTOM_SIZE &&
+                                    n <= MAX_CUSTOM_SIZE
+                                  ) {
+                                    setResizeOpts({ ...resizeOpts, maxSize: n })
+                                  }
+                                }}
+                                className='input'
+                                aria-label='Custom longest side in pixels'
+                              />
+                              <span className='text-[12px] text-muted font-semibold'>
+                                px
+                              </span>
+                            </div>
+                            <p className='text-[11px] text-muted mt-1'>
+                              {MIN_CUSTOM_SIZE}–{MAX_CUSTOM_SIZE} px. Smaller
+                              number = smaller image, bigger number = larger
+                              image.
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                      <div>
+                        <label className='block text-[11.5px] font-bold text-navy mb-1.5'>
+                          Format
+                        </label>
+                        <select
+                          value={resizeOpts.format}
+                          onChange={(e) =>
+                            setResizeOpts({
+                              ...resizeOpts,
+                              format: e.target.value as ResizeFormat,
+                            })
+                          }
+                          className='input'
+                        >
+                          <option value='webp'>WebP (smallest)</option>
+                          <option value='jpeg'>JPEG (most compatible)</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className='block text-[11.5px] font-bold text-navy mb-1.5'>
+                          Quality: {Math.round(resizeOpts.quality * 100)}%
+                        </label>
+                        <input
+                          type='range'
+                          min={60}
+                          max={100}
+                          step={5}
+                          value={Math.round(resizeOpts.quality * 100)}
+                          onChange={(e) =>
+                            setResizeOpts({
+                              ...resizeOpts,
+                              quality: Number(e.target.value) / 100,
+                            })
+                          }
+                          className='w-full accent-[#0F6E4E]'
+                        />
+                      </div>
+                      <label
+                        className={`flex items-center gap-2.5 text-[12.5px] font-semibold text-navy sm:pt-6 ${
+                          resizeOpts.maxSize ? 'cursor-pointer' : 'opacity-50'
+                        }`}
+                      >
+                        <input
+                          type='checkbox'
+                          disabled={!resizeOpts.maxSize}
+                          checked={resizeOpts.square && !!resizeOpts.maxSize}
+                          onChange={(e) =>
+                            setResizeOpts({
+                              ...resizeOpts,
+                              square: e.target.checked,
+                            })
+                          }
+                          className='w-4 h-4 accent-[#0F6E4E]'
+                        />
+                        Fit in a square (white background)
+                      </label>
+                      <label
+                        className={`flex items-start gap-2.5 text-[12.5px] font-semibold text-navy sm:col-span-2 ${
+                          resizeOpts.maxSize ? 'cursor-pointer' : 'opacity-50'
+                        }`}
+                      >
+                        <input
+                          type='checkbox'
+                          disabled={!resizeOpts.maxSize}
+                          checked={
+                            resizeOpts.allowUpscale && !!resizeOpts.maxSize
+                          }
+                          onChange={(e) =>
+                            setResizeOpts({
+                              ...resizeOpts,
+                              allowUpscale: e.target.checked,
+                            })
+                          }
+                          className='w-4 h-4 mt-0.5 accent-[#0F6E4E]'
+                        />
+                        <span>
+                          Also make small images bigger
+                          <span className='block text-[11px] font-normal text-muted'>
+                            Enlarges photos smaller than the size above. They
+                            may look slightly blurry.
+                          </span>
+                        </span>
+                      </label>
+                    </div>
+                  )}
+                </div>
+
                 <div className='flex gap-3 flex-wrap'>
                   {images.map((url) => (
                     <div
@@ -434,7 +770,7 @@ export default function ProductFormPage({
                     >
                       {uploading ? (
                         <span className='text-[10px] font-semibold'>
-                          Uploading...
+                          {resizeOn ? 'Resizing…' : 'Uploading…'}
                         </span>
                       ) : (
                         <>
@@ -472,6 +808,11 @@ export default function ProductFormPage({
                     {imageError}
                   </p>
                 )}
+                {resizeNote && !imageError && (
+                  <p className='text-forest text-[12px] font-bold mt-2'>
+                    ✓ {resizeNote}
+                  </p>
+                )}
                 {images.length === 0 && !imageError && (
                   <p className='text-muted text-[11.5px] mt-2'>
                     No images yet — the product will show a placeholder icon
@@ -483,32 +824,30 @@ export default function ProductFormPage({
 
             {activeTab === 'pricing' && (
               <>
-                <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
-                  <Field label='Price (₹)' required>
+                <Field label='MRP (₹)' required>
+                  <div className='relative max-w-[320px]'>
+                    <span className='absolute left-3.5 top-1/2 -translate-y-1/2 text-muted text-[14px] font-semibold'>
+                      ₹
+                    </span>
                     <input
                       required
                       type='number'
-                      step='0.01'
-                      value={form.price}
-                      onChange={(e) =>
-                        setForm({ ...form, price: e.target.value })
-                      }
-                      className='input'
-                    />
-                  </Field>
-                  <Field label='MRP (₹)' required>
-                    <input
-                      required
-                      type='number'
+                      min='0'
                       step='0.01'
                       value={form.mrp}
                       onChange={(e) =>
                         setForm({ ...form, mrp: e.target.value })
                       }
                       className='input'
+                      style={{ paddingLeft: 30 }}
+                      placeholder='0.00'
                     />
-                  </Field>
-                </div>
+                  </div>
+                  <p className='text-muted text-[11.5px] mt-1.5'>
+                    Maximum retail price per {priceUnit(form.type)} — this is
+                    the price shown on the website.
+                  </p>
+                </Field>
 
                 <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
                   <Field label='Stock Quantity' required>

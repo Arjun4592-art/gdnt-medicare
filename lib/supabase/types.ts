@@ -36,5 +36,11 @@ export interface DbEnquiry {
   created_at: string
 }
 
+export interface DbCategory {
+  id: string
+  name: string
+  created_at: string
+}
+
 export type NewProduct = Omit<DbProduct, 'id' | 'created_at' | 'updated_at'>
 export type NewEnquiry = Omit<DbEnquiry, 'id' | 'created_at' | 'status'>

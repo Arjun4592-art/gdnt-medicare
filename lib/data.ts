@@ -26,6 +26,8 @@ function mapDbProduct(row: DbProduct): Product {
           ? 'Low Stock'
           : 'In Stock'
         : 'Low Stock',
+    stockQty: row.stock_quantity,
+    reorderLevel: row.reorder_level,
     rating: Number(row.rating),
     reviews: row.reviews_count,
     tagColor: '#0F6E4E',

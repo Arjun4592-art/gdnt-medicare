@@ -13,6 +13,8 @@ export interface Product {
   price: number
   mrp: number
   stock: 'In Stock' | 'Low Stock'
+  stockQty: number
+  reorderLevel: number
   rating: number
   reviews: number
   tagColor: string
@@ -52,3 +54,36 @@ export const CATEGORIES = [
   'Pain Relief',
   'Cold & Allergy',
 ]
+
+// Product forms — used by BOTH the shop "Form" filter and the admin Add/Edit
+// Product "Form" dropdown, so the two can never drift apart.
+export const FORMS = [
+  'Tablets',
+  'Capsules',
+  'Syrup',
+  'Injection',
+  'Ointment',
+  'Powder',
+]
+
+/**
+ * Single source of truth for the category list. The shop filter sidebar and the
+ * admin Add/Edit Product dropdown BOTH build their list with this function:
+ * categories saved in the `categories` table + any category a product already
+ * uses (case-insensitive de-dupe, A-Z).
+ */
+export function mergeCategoryNames(
+  tableNames: string[] = [],
+  productCats: string[] = [],
+): string[] {
+  const seen = new Map<string, string>()
+  for (const raw of [...tableNames, ...productCats]) {
+    const name = (raw ?? '').replace(/\s+/g, ' ').trim()
+    if (!name) continue
+    const key = name.toLowerCase()
+    if (!seen.has(key)) seen.set(key, name)
+  }
+  return Array.from(seen.values()).sort((a, b) =>
+    a.localeCompare(b, undefined, { sensitivity: 'base' }),
+  )
+}

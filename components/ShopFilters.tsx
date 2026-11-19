@@ -2,17 +2,8 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { Product, CATEGORIES } from '@/lib/products'
+import { Product, CATEGORIES, FORMS, mergeCategoryNames } from '@/lib/products'
 import ProductCard from './ProductCard'
-
-const FORMS = [
-  'Tablets',
-  'Capsules',
-  'Syrup',
-  'Injection',
-  'Ointment',
-  'Powder',
-]
 
 // "?form=Tablets,Capsules" -> ['Tablets', 'Capsules']
 const parseList = (v: string | null) =>
@@ -23,7 +14,14 @@ const parseList = (v: string | null) =>
         .filter(Boolean)
     : []
 
-export default function ShopFilters({ products }: { products: Product[] }) {
+export default function ShopFilters({
+  products,
+  categoryNames = [],
+}: {
+  products: Product[]
+  /** names from the `categories` table (same list the admin dropdown uses) */
+  categoryNames?: string[]
+}) {
   const searchParams = useSearchParams()
   const initialQuery = searchParams.get('q') ?? ''
   // Links from the home page categories: /shop?form=Injection or /shop?cat=Wellness
@@ -70,12 +68,16 @@ export default function ShopFilters({ products }: { products: Product[] }) {
     )
   }
 
-  // Only offer categories that actually exist in the live product data, falling
-  // back to the suggested list if the store hasn't been stocked yet.
+  // Same list the admin "Add Product" dropdown uses: the categories table plus
+  // any category already used by a product. Falls back to the suggested list
+  // only if both are empty.
   const activeCategories = useMemo(() => {
-    const inData = Array.from(new Set(products.map((p) => p.cat))).sort()
-    return inData.length > 0 ? inData : CATEGORIES
-  }, [products])
+    const merged = mergeCategoryNames(
+      categoryNames,
+      products.map((p) => p.cat),
+    )
+    return merged.length > 0 ? merged : CATEGORIES
+  }, [products, categoryNames])
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()

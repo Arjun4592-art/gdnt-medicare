@@ -10,15 +10,6 @@ export type SubmitEnquiryResult = { ok: true } | { ok: false; error: string }
 const clean = (v: string | null | undefined, max: number) =>
   (v ?? '').toString().trim().slice(0, max)
 
-// Submit a new enquiry (public — from the contact form).
-//
-// IMPORTANT: visitors are anonymous, and the database only lets anonymous users
-// INSERT into `enquiries` (see supabase/schema.sql) — they have no SELECT rights.
-// So this must NOT chain `.select()` after `.insert()`: reading the new row back
-// is a SELECT, which row-level security blocks, and the whole submit then fails.
-//
-// Returns a result object instead of throwing, because Next.js hides the message
-// of errors thrown from server actions in production.
 export async function submitEnquiry(
   enquiry: NewEnquiry,
 ): Promise<SubmitEnquiryResult> {
@@ -96,11 +87,6 @@ export async function markResponded(id: string) {
   revalidatePath('/admin')
 }
 
-// ============================================================
-// EMAIL NOTIFICATION
-// Uses Resend (resend.com) — free for up to 3,000 emails/month.
-// Sign up free, verify a sender (or use their test domain), add RESEND_API_KEY to .env.local
-// ============================================================
 const esc = (v: string | null | undefined) =>
   (v ?? '')
     .replace(/&/g, '&amp;')
@@ -212,9 +198,17 @@ export async function sendEnquiryReply(
     }
   }
 
-  const from = process.env.EMAIL_FROM || 'GDNT Medicare <onboarding@resend.dev>'
+  // Hosting dashboards (e.g. Vercel) keep quote marks typed into a value, unlike
+  // .env.local — strip them so `"Name <a@b.com>"` still works.
+  const unquote = (v?: string) =>
+    (v ?? '')
+      .trim()
+      .replace(/^["']+|["']+$/g, '')
+      .trim()
+  const from =
+    unquote(process.env.EMAIL_FROM) || 'GDNT Medicare <onboarding@resend.dev>'
   const replyTo =
-    process.env.ADMIN_NOTIFICATION_EMAIL || 'orders@gdntmedicare.com'
+    unquote(process.env.ADMIN_NOTIFICATION_EMAIL) || 'orders@gdntmedicare.com'
 
   const html = `<div style="font-family: sans-serif; font-size: 15px; line-height: 1.6; color: #14181F; max-width: 560px;">${esc(
     body,
